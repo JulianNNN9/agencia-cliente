@@ -1,5 +1,6 @@
 package co.edu.uniquindio.agenciacliente.controllers;
 
+import co.edu.uniquindio.agenciacliente.exceptions.*;
 import co.edu.uniquindio.agenciacliente.enums.ReservationStatus;
 import co.edu.uniquindio.agenciacliente.model.*;
 import javafx.beans.property.SimpleStringProperty;
@@ -582,7 +583,7 @@ public class HomeController {
 
     public void onConfiRegistrarClienteClick() throws RepeatedInformationException, AtributoVacioException {
         visibilitiesRegister(true, false);
-        travelAgency.registrarCliente(idTF.getText(),passTF.getText(),nombreTF.getText(),mailTF.getText(),telefonoTF.getText(),residenciaTF.getText());
+        AgenciaCliente.registrarCliente(idTF.getText(),passTF.getText(),nombreTF.getText(),mailTF.getText(),telefonoTF.getText(),residenciaTF.getText());
     }
 
 

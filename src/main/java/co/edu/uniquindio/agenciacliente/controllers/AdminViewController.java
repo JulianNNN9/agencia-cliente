@@ -1,5 +1,6 @@
 package co.edu.uniquindio.agenciacliente.controllers;
 
+import co.edu.uniquindio.agenciacliente.exceptions.*;
 import co.edu.uniquindio.agenciacliente.model.*;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
