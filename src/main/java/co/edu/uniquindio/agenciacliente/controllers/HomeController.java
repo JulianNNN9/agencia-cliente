@@ -34,7 +34,7 @@ public class HomeController {
     private final TravelAgency travelAgency = TravelAgency.getInstance();
 
 
-    //Calificar guia-----------------------------------
+    //Calificar guia------------------------------
 
     @FXML
     public Label bienvenidoLabel;
