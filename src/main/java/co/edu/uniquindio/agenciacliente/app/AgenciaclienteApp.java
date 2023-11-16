@@ -22,7 +22,6 @@ public class AgenciaclienteApp extends Application {
 
         stage.initStyle(StageStyle.TRANSPARENT);
         Scene scene = new Scene(parent);
-        //scene.getStylesheets().add(getClass().getClassLoader().getResource("../views/styles.css").toExternalForm());
         scene.setFill(Color.TRANSPARENT);
         stage.setScene(scene);
         stage.show();

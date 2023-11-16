@@ -32,7 +32,7 @@ import java.util.*;
 
 public class HomeController {
 
-    private final TravelAgency travelAgency = TravelAgency.getInstance();
+    private final AgenciaCliente agenciaCliente = AgenciaCliente.getInstance();
 
 
     //Calificar guia------------------------------
@@ -247,8 +247,8 @@ public class HomeController {
 
         packageObservableList = packagesTable.getItems();
 
-        if (travelAgency.getTouristPackages() != null) {
-            packageObservableList.addAll(travelAgency.getTouristPackages());
+        if (agenciaCliente.getTouristPackages() != null) {
+            packageObservableList.addAll(agenciaCliente.getTouristPackages());
         }
 
         this.namePackageCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -267,7 +267,7 @@ public class HomeController {
 
     public void calificarServicioGuia(){
 
-        Optional<Client> optionalClient = travelAgency.getClients().stream().filter(client ->  client.getUserId().equals(clientID)).findFirst();
+        Optional<Client> optionalClient = agenciaCliente.getClients().stream().filter(client ->  client.getUserId().equals(clientID)).findFirst();
 
         if (optionalClient.isPresent()){
 
@@ -293,16 +293,10 @@ public class HomeController {
 
                         confirmarCalificacionGuiaButton.setOnAction(actionEvent -> {
 
-                            try {
+                            agenciaCliente.calificarGuia(reservation.getTouristGuide(), groupCalificacionGuia.getSelectedToggle().toString());
 
-                                travelAgency.calificarGuia(reservation.getTouristGuide(), groupCalificacionGuia.getSelectedToggle(), radioBtton1Estrella, radioBtton2Estrella, radioBtton3Estrella, radioBtton4Estrella, radioBtton5Estrella);
-
-                                hboxCliente.setVisible(true);
+                            hboxCliente.setVisible(true);
                                 visibilitiesClient(true, false, false, false, false);
-
-                            } catch (AtributoVacioException e) {
-                                throw new RuntimeException(e);
-                            }
                         });
 
                     }
@@ -313,7 +307,7 @@ public class HomeController {
 
     public void calificarDestinos(){
 
-        Optional<Client> optionalClient =  travelAgency.getClients().stream().filter(client -> client.getUserId().equals(clientID)).findFirst();
+        Optional<Client> optionalClient =  agenciaCliente.getClients().stream().filter(client -> client.getUserId().equals(clientID)).findFirst();
 
         if (optionalClient.isPresent()){
 
@@ -326,7 +320,7 @@ public class HomeController {
 
                     for (String nombreDestinoCalificar : reservation.getTouristPackage().getDestinosName()) {
 
-                        Optional<Destino> optionalDestino = travelAgency.getDestinos()
+                        Optional<Destino> optionalDestino = agenciaCliente.getDestinos()
                                 .stream()
                                 .filter(destino -> destino.getName().equals(nombreDestinoCalificar))
                                 .findFirst();
@@ -335,17 +329,10 @@ public class HomeController {
                         cargaImagenDestinoCalificar.setImage(new Image(optionalDestino.get().getImagesHTTPS().get(0)));
 
                         optionalDestino.ifPresent(destino -> calificarDestinoButton.setOnAction(actionEvent -> {
-
-                            try {
-
-                                travelAgency.calificarDestino(destino, txtAreaComentario.getText(), groupCalificacionDestino.getSelectedToggle(), radioBtton1EstrellaDestino, radioBtton2EstrellaDestino, radioBtton3EstrellaDestino, radioBtton4EstrellaDestino, radioBtton5EstrellaDestino);
+                                agenciaCliente.calificarDestino(destino, txtAreaComentario.getText(), groupCalificacionDestino.getSelectedToggle().toString());
 
                                 groupCalificacionDestino.getSelectedToggle().setSelected(false);
                                 txtAreaComentario.clear();
-
-                            } catch (AtributoVacioException e) {
-                                throw new RuntimeException(e);
-                            }
                         }));
                     }
 
@@ -362,9 +349,11 @@ public class HomeController {
 
     }
 
-    public void onHacerReservacionClick() throws AtributoVacioException, CuposInvalidosException {
+    public void onHacerReservacionClick() {
 
-        travelAgency.hacerReservacion(clientID, mail, group.getSelectedToggle(), radioBttonSI, radioBttonNO, choiceBoxGuias.getSelectionModel().getSelectedItem(), txtFldCuposDeseados.getText(), txtFldNombrePaquete.getText());
+        String mensaje = agenciaCliente.hacerReservacion(clientID, mail, choiceBoxGuias.getSelectionModel().getSelectedItem(), txtFldCuposDeseados.getText(), txtFldNombrePaquete.getText());
+
+        createAlertInfo("Reserva", "Información", mensaje);
 
         group.getSelectedToggle().setSelected(false);
         choiceBoxGuias.getSelectionModel().clearSelection();
@@ -404,7 +393,7 @@ public class HomeController {
                         confirmarReservaButton.setVisible(false);
 
                         cancelarReservaButton.setOnAction(event -> {
-                            travelAgency.cancelarReserva(newSelection);
+                            agenciaCliente.cancelarReserva(newSelection);
                             cancelarReservaButton.setVisible(false);
                             historialReservacionesTable.refresh();
                         });
@@ -415,13 +404,13 @@ public class HomeController {
                         confirmarReservaButton.setVisible(true);
 
                         cancelarReservaButton.setOnAction(event -> {
-                            travelAgency.cancelarReserva(newSelection);
+                            agenciaCliente.cancelarReserva(newSelection);
                             cancelarReservaButton.setVisible(false);
                             historialReservacionesTable.refresh();
                         });
 
                         confirmarReservaButton.setOnAction(actionEvent -> {
-                            travelAgency.confirmarReserva(newSelection);
+                            agenciaCliente.confirmarReserva(newSelection);
                             confirmarReservaButton.setVisible(false);
                             historialReservacionesTable.refresh();
                         });
@@ -434,7 +423,7 @@ public class HomeController {
             });
         } else {
 
-            Optional<Client> client = travelAgency.getClients().stream().filter(client1 -> client1.getUserId().equals(clientID)).findFirst();
+            Optional<Client> client = agenciaCliente.getClients().stream().filter(client1 -> client1.getUserId().equals(clientID)).findFirst();
 
             List<Reservation> reservationsData = new ArrayList<>();
 
@@ -455,7 +444,7 @@ public class HomeController {
 
     public void onReservarClick() {
 
-        List<String> guiasName = travelAgency.getTouristGuides().stream()
+        List<String> guiasName = agenciaCliente.getTouristGuides().stream()
                 .map(TouristGuide::getFullName)
                 .toList();
 
@@ -487,7 +476,7 @@ public class HomeController {
             boolean seleccionado = newValue != null;
 
             if (seleccionado){
-                Optional<Destino> optionalDestino =  travelAgency.getDestinos().stream().filter(destino -> destino.getName().equals(newValue)).findFirst();
+                Optional<Destino> optionalDestino =  agenciaCliente.getDestinos().stream().filter(destino -> destino.getName().equals(newValue)).findFirst();
 
                 List<String> listaRutas;
 
@@ -565,9 +554,9 @@ public class HomeController {
         confirmarEdicionButton.setVisible(true);
     }
 
-    public void onConfirmarEdicionClick() throws AtributoVacioException {
+    public void onConfirmarEdicionClick() {
 
-        travelAgency.modificarPerfil(clientID, txtFldNombre.getText(), txtFldMail.getText(), txtFldNumero.getText(), txtFldResidencia.getText());
+        agenciaCliente.modificarPerfil(clientID, txtFldNombre.getText(), txtFldMail.getText(), txtFldNumero.getText(), txtFldResidencia.getText());
 
         txtFldNombre.setEditable(false);
         txtFldMail.setEditable(false);
@@ -583,7 +572,10 @@ public class HomeController {
 
     public void onConfiRegistrarClienteClick() throws RepeatedInformationException, AtributoVacioException {
         visibilitiesRegister(true, false);
-        AgenciaCliente.registrarCliente(idTF.getText(),passTF.getText(),nombreTF.getText(),mailTF.getText(),telefonoTF.getText(),residenciaTF.getText());
+        String mensaje = agenciaCliente.registrarCliente(idTF.getText(),passTF.getText(),nombreTF.getText(),mailTF.getText(),telefonoTF.getText(),residenciaTF.getText());
+
+        createAlertInfo("Registro cliente", "Información", mensaje);
+
     }
 
 
@@ -626,12 +618,12 @@ public class HomeController {
         stage.close();
     }
 
-    public void onLogInButtonClick() throws UserNoExistingException, WrongPasswordException, IOException, AtributoVacioException {
+    public void onLogInButtonClick() throws IOException {
 
-        String sesion = travelAgency.LogIn(txtFldID.getText(), passwordFldInicioSesion.getText());
+        String sesion = agenciaCliente.LogIn(txtFldID.getText(), passwordFldInicioSesion.getText());
 
 
-        Optional<Client> optionalClient = travelAgency.getClients().stream().filter(client -> client.getUserId().equals(txtFldID.getText())).findFirst();
+        Optional<Client> optionalClient = agenciaCliente.getClients().stream().filter(client -> client.getUserId().equals(txtFldID.getText())).findFirst();
 
         if(sesion.equals("Client")){
 
@@ -650,10 +642,10 @@ public class HomeController {
 
         } else if (sesion.equals("Admin")) {
 
-            travelAgency.generateWindow("src/main/resources/views/adminView.fxml",cerrarVentanaImgvPrincipal);
+            generateWindow("src/main/resources/views/adminView.fxml",cerrarVentanaImgvPrincipal);
 
         } else {
-            travelAgency.createAlertError("El usuario ingresado no existe", "Verifique los datos");
+            createAlertError("El usuario ingresado no existe", "Verifique los datos");
         }
 
     }
@@ -670,7 +662,7 @@ public class HomeController {
         this.colPqFechaFinal.setCellValueFactory(new PropertyValueFactory<>("endDate"));
         this.colPqDuration.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-        tP.addAll(travelAgency.getTouristPackages());
+        tP.addAll(agenciaCliente.getTouristPackages());
 
         tblPq.setItems(tP);
 
@@ -723,6 +715,40 @@ public class HomeController {
         stage.show();
 
         Stage stage1 = (Stage) cerrarVentanaImgvCliente.getScene().getWindow();
+        stage1.close();
+    }
+
+
+    public void createAlertError(String titleError, String contentError){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titleError);
+        alert.setContentText(contentError);
+        alert.show();
+    }
+
+    public void createAlertInfo(String titleError, String headerError, String contentError){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titleError);
+        alert.setHeaderText(headerError);
+        alert.setContentText(contentError);
+        alert.show();
+    }
+
+    public void generateWindow(String path, ImageView close) throws IOException {
+
+        File url = new File(path);
+        FXMLLoader loader = new FXMLLoader(url.toURL());
+        Parent parent = loader.load();
+
+        Scene scene = new Scene(parent);
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.initStyle(StageStyle.TRANSPARENT);
+        scene.setFill(Color.TRANSPARENT);
+        stage.setResizable(false);
+        stage.show();
+
+        Stage stage1 = (Stage) close.getScene().getWindow();
         stage1.close();
     }
 }

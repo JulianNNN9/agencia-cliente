@@ -4,7 +4,16 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="63d5de39-b50b-4a9a-9fff-69d87c2cd862" name="Changes" comment="" />
+    <list default="true" id="63d5de39-b50b-4a9a-9fff-69d87c2cd862" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/app/AgenciaclienteApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/app/AgenciaclienteApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/controllers/AdminViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/controllers/AdminViewController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/controllers/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/model/AgenciaCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/agenciacliente/model/AgenciaCliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -37,9 +46,9 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Jfunc",
+    "git-widget-placeholder": "main",
     "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "G:/IntelliJ IDEA - workspace/agencia-cliente/src/main/java/co/edu/uniquindio/agenciacliente",
+    "last_opened_file_path": "G:/IntelliJ IDEA - workspace/agencia-cliente/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -53,6 +62,7 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="G:\IntelliJ IDEA - workspace\agencia-cliente\src\main\resources" />
       <recent name="G:\IntelliJ IDEA - workspace\agencia-cliente\src\main\java\co\edu\uniquindio\agenciacliente" />
       <recent name="G:\IntelliJ IDEA - workspace\agencia-cliente\src\main\resources\views" />
     </key>
@@ -60,11 +70,32 @@
       <recent name="G:\IntelliJ IDEA - workspace\agencia-cliente\src\main\resources" />
     </key>
     <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="co.edu.uniquindio.agenciacliente.datos" />
       <recent name="co.edu.uniquindio.agenciacliente.model" />
       <recent name="co.edu.uniquindio.agenciacliente.enums" />
       <recent name="co.edu.uniquindio.agenciacliente.controllers" />
       <recent name="co.edu.uniquindio.agenciacliente.app" />
     </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="AgenciaclienteApp" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="co.edu.uniquindio.agenciacliente.app.AgenciaclienteApp" />
+      <module name="agencia-cliente" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="co.edu.uniquindio.agenciacliente.app.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.AgenciaclienteApp" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -77,6 +108,10 @@
       <workItem from="1699495300616" duration="3142000" />
       <workItem from="1699498845060" duration="116000" />
       <workItem from="1699578724798" duration="2391000" />
+      <workItem from="1699720152997" duration="385000" />
+      <workItem from="1700075375851" duration="1915000" />
+      <workItem from="1700085890446" duration="999000" />
+      <workItem from="1700097782716" duration="7933000" />
     </task>
     <servers />
   </component>

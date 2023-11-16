@@ -32,7 +32,7 @@ import java.util.*;
 
 public class AdminViewController {
 
-    private final TravelAgency travelAgency = TravelAgency.getInstance();
+    private final AgenciaCliente agenciaCliente = AgenciaCliente.getInstance();
 
     //Ventana principal
 
@@ -136,14 +136,14 @@ public class AdminViewController {
     private CategoryAxis guidesXAxis;
     @FXML
     private NumberAxis guidesYAxis;
-    private List<TouristGuide> guides = TravelAgency.getInstance().getTouristGuides();
+    private List<TouristGuide> guides = agenciaCliente.getTouristGuides();
     @FXML
     private BarChart<String, Number> packagesChart;
     @FXML
     private CategoryAxis packagesXAxis;
     @FXML
     private NumberAxis packagesYAxis;
-    private List<Reservation> reservations = travelAgency.getReservations();
+    private List<Reservation> reservations = agenciaCliente.getReservations();
 
     public void initialize(){
 
@@ -229,8 +229,8 @@ public class AdminViewController {
 
         destinoObservableList = destinationsTable.getItems();
 
-        if (travelAgency.getDestinos() != null) {
-            destinoObservableList.addAll(travelAgency.getDestinos());
+        if (agenciaCliente.getDestinos() != null) {
+            destinoObservableList.addAll(agenciaCliente.getDestinos());
         }
 
         this.nameDestinationCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -283,8 +283,8 @@ public class AdminViewController {
 
         packageObservableList = packagesTable.getItems();
 
-        if (travelAgency.getTouristPackages() != null) {
-            packageObservableList.addAll(travelAgency.getTouristPackages());
+        if (agenciaCliente.getTouristPackages() != null) {
+            packageObservableList.addAll(agenciaCliente.getTouristPackages());
         }
 
         this.namePackageCol.setCellValueFactory(new PropertyValueFactory<>("name"));
@@ -337,8 +337,8 @@ public class AdminViewController {
 
         touristGuideObservableList = guidesTable.getItems();
 
-        if (travelAgency.getTouristGuides() != null) {
-            touristGuideObservableList.addAll(travelAgency.getTouristGuides());
+        if (agenciaCliente.getTouristGuides() != null) {
+            touristGuideObservableList.addAll(agenciaCliente.getTouristGuides());
         }
 
         this.idGuideCol.setCellValueFactory(new PropertyValueFactory<>("id"));
@@ -430,7 +430,7 @@ public class AdminViewController {
     }
 
     private Map<String, Integer> getIntegerMap() {
-        List<Reservation> reservations = travelAgency.getReservations();
+        List<Reservation> reservations = agenciaCliente.getReservations();
 
         // Crear un mapa para contar las repeticiones de los nombres de destinos
         Map<String, Integer> cuentaReservasPorDestino = new HashMap<>();
@@ -478,7 +478,7 @@ public class AdminViewController {
     }
 
     @FXML
-    private void agregarElementoDestinations() throws RepeatedInformationException, AtributoVacioException {
+    private void agregarElementoDestinations() throws RepeatedInformationException {
 
         Destino nuevoDestino = Destino.builder()
                 .name(txtFldName.getText())
@@ -488,7 +488,14 @@ public class AdminViewController {
                 .weather(choiceBoxClima.getValue())
                 .build();
 
-        travelAgency.agregarDestino(destinoObservableList, nuevoDestino);
+        if (destinoObservableList.stream().anyMatch(destination -> destination.getName().equals(nuevoDestino.getName()))){
+            createAlertError("Error", "Se ha intentado crear un Destino existente.");
+            throw new RepeatedInformationException("Se ha intentado crear un Destino existente.");
+        }
+
+        destinoObservableList.add(nuevoDestino);
+
+        agenciaCliente.agregarDestino(nuevoDestino);
 
         limpiarCamposDestinations();
 
@@ -503,12 +510,12 @@ public class AdminViewController {
     }
 
     @FXML
-    private void modificarElementoDestinations() throws AtributoVacioException {
+    private void modificarElementoDestinations() {
         if (destinationsTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             Destino selectedDestino = destinationsTable.getSelectionModel().getSelectedItem();
 
-            travelAgency.modificarDestino(selectedDestino, txtFldName.getText(), txtFldCity.getText(), txtFldDescription.getText(), choiceBoxClima.getValue());
+            agenciaCliente.modificarDestino(selectedDestino, txtFldName.getText(), txtFldCity.getText(), txtFldDescription.getText(), choiceBoxClima.getValue());
 
             limpiarCamposDestinations();
 
@@ -534,7 +541,9 @@ public class AdminViewController {
 
             Destino selectedDestino = destinationsTable.getSelectionModel().getSelectedItem();
 
-            travelAgency.eliminarDestino(destinoObservableList, selectedDestino);
+            agenciaCliente.eliminarDestino(selectedDestino);
+
+            destinoObservableList.remove(selectedDestino);
 
             limpiarCamposDestinations();
 
@@ -570,17 +579,22 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarRutaImagenDestinations() throws RepeatedInformationException, AtributoVacioException, RutaInvalidaException {
+    public void agregarRutaImagenDestinations() throws RepeatedInformationException {
 
         String destinoName = txtFldName.getText();
 
-        Optional<Destino> destinoSeleccionadoOpcional = travelAgency.getDestinos().stream()
+        Optional<Destino> destinoSeleccionadoOpcional = agenciaCliente.getDestinos().stream()
                 .filter(destino -> destino.getName().equals(destinoName))
                 .findFirst();
 
         if (destinoSeleccionadoOpcional.isPresent()) {
 
-            travelAgency.agregarImagenDestino(observableListRutas, txtFldRuta.getText(), destinoSeleccionadoOpcional.get());
+            if (observableListRutas.stream().anyMatch(string -> string.equals(txtFldRuta.getText()))){
+                throw new RepeatedInformationException("Se ha intentado crear una ruta existente.");
+            }
+
+            observableListRutas.add(txtFldRuta.getText());
+            agenciaCliente.agregarImagenDestino(txtFldRuta.getText(), destinoSeleccionadoOpcional.get());
 
         } else {
 
@@ -592,9 +606,9 @@ public class AdminViewController {
                     .weather(choiceBoxClima.getValue())
                     .build();
 
-            travelAgency.agregarImagenDestino(observableListRutas, txtFldRuta.getText(), nuevoDestino);
+            agenciaCliente.agregarImagenDestino(txtFldRuta.getText(), nuevoDestino);
 
-            travelAgency.agregarDestino(destinoObservableList, nuevoDestino);
+            agenciaCliente.agregarDestino(nuevoDestino);
         }
 
         txtFldRuta.clear();
@@ -610,11 +624,11 @@ public class AdminViewController {
 
             String destinoName = txtFldName.getText();
 
-            Optional<Destino> destinoSeleccionadoOpcional = travelAgency.getDestinos().stream()
+            Optional<Destino> destinoSeleccionadoOpcional = agenciaCliente.getDestinos().stream()
                     .filter(destino -> destino.getName().equals(destinoName))
                     .findFirst();
 
-            travelAgency.eliminarRuta(destinoSeleccionadoOpcional, selectedRuta);
+            agenciaCliente.eliminarRuta(destinoSeleccionadoOpcional, selectedRuta);
 
         }
 
@@ -641,7 +655,7 @@ public class AdminViewController {
     }
 
     @FXML
-    private void agregarElementoPackages() throws RepeatedInformationException, AtributoVacioException, ErrorEnIngresoFechasException {
+    private void agregarElementoPackages() throws RepeatedInformationException, EmptyAttributeException {
 
         long duration = 0;
 
@@ -649,13 +663,12 @@ public class AdminViewController {
             duration = datePckrStartDate.getValue().until(datePckrEndDate.getValue(), ChronoUnit.DAYS);
         }
 
-        TouristPackage nuevoPaquete = new TouristPackage();
-
         if (txtFldPrice.getText().isEmpty() || txtFldPrice.getText() == null || txtFldQuota.getText().isEmpty() || txtFldQuota.getText() == null){
-            travelAgency.agregarPaquete(packageObservableList, nuevoPaquete);
+            createAlertError("Error", "Atributos vacios");
+            throw new EmptyAttributeException("Atributos vacíos.");
         }
 
-        nuevoPaquete = TouristPackage.builder()
+        TouristPackage nuevoPaquete = TouristPackage.builder()
                 .name(txtFldPackageName.getText())
                 .price(Double.valueOf(txtFldPrice.getText()))
                 .quota(Integer.parseInt(txtFldQuota.getText()))
@@ -664,7 +677,12 @@ public class AdminViewController {
                 .duration(duration)
                 .build();
 
-        travelAgency.agregarPaquete(packageObservableList, nuevoPaquete);
+        if (packageObservableList.stream().anyMatch(touristPackage -> touristPackage.getName().equals(nuevoPaquete.getName()))){
+            throw new RepeatedInformationException("Se ha intentado crear un paquete existente.");
+        }
+
+        packageObservableList.add(nuevoPaquete);
+        agenciaCliente.agregarPaquete(nuevoPaquete);
 
         limpiarCamposPackages();
 
@@ -678,13 +696,13 @@ public class AdminViewController {
     }
 
     @FXML
-    private void modificarElementoPackages() throws AtributoVacioException {
+    private void modificarElementoPackages() {
 
         if (packagesTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             TouristPackage selectedPackage = packagesTable.getSelectionModel().getSelectedItem();
 
-            travelAgency.modificarPaquete(selectedPackage, txtFldPackageName.getText(), Double.parseDouble(txtFldPrice.getText()), Integer.parseInt(txtFldQuota.getText()), datePckrStartDate.getValue(), datePckrEndDate.getValue());
+            agenciaCliente.modificarPaquete(selectedPackage, txtFldPackageName.getText(), Double.parseDouble(txtFldPrice.getText()), Integer.parseInt(txtFldQuota.getText()), datePckrStartDate.getValue(), datePckrEndDate.getValue());
 
             limpiarCamposPackages();
 
@@ -708,7 +726,8 @@ public class AdminViewController {
         if (packagesTable.getSelectionModel().getSelectedIndex() >= 0) {
             TouristPackage selectedPackage = packagesTable.getSelectionModel().getSelectedItem();
 
-            travelAgency.eliminarPaquete(packageObservableList, selectedPackage);
+            agenciaCliente.eliminarPaquete( selectedPackage);
+            packageObservableList.remove(selectedPackage);
 
             limpiarCamposPackages();
             destinationsNameTable.setDisable(true);
@@ -722,17 +741,24 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarDestinoEnPaquete() throws RepeatedInformationException, AtributoVacioException, ErrorEnIngresoFechasException {
+    public void agregarDestinoEnPaquete() throws RepeatedInformationException {
 
         String paqueteName = txtFldPackageName.getText();
 
-        Optional<TouristPackage> paqueteSeleccionadoOpcional = travelAgency.getTouristPackages().stream()
+        Optional<TouristPackage> paqueteSeleccionadoOpcional = agenciaCliente.getTouristPackages().stream()
                 .filter(touristPackage -> touristPackage.getName().equals(paqueteName))
                 .findFirst();
 
         if (paqueteSeleccionadoOpcional.isPresent()){
 
-            travelAgency.agregarDestinoEnPaquete(observableListDestinationName, choiceBoxDestinationName.getSelectionModel().getSelectedItem(), paqueteSeleccionadoOpcional.get());
+            if (observableListDestinationName.stream().anyMatch(string -> string.equals(choiceBoxDestinationName.getSelectionModel().getSelectedItem()))){
+                createAlertError("Error", "Se ha intentado agregar un destino existente.");
+                throw new RepeatedInformationException("Se ha intentado agregar un destino existente.");
+            }
+
+            observableListDestinationName.add(choiceBoxDestinationName.getSelectionModel().getSelectedItem());
+
+            agenciaCliente.agregarDestinoEnPaquete(choiceBoxDestinationName.getSelectionModel().getSelectedItem(), paqueteSeleccionadoOpcional.get());
 
         } else {
 
@@ -751,9 +777,16 @@ public class AdminViewController {
                     .duration(duration)
                     .build();
 
-            travelAgency.agregarDestinoEnPaquete(observableListDestinationName, choiceBoxDestinationName.getSelectionModel().getSelectedItem(), nuevoPaquete);
+            if (observableListDestinationName.stream().anyMatch(string -> string.equals(choiceBoxDestinationName.getSelectionModel().getSelectedItem()))){
+                createAlertError("Error", "Se ha intentado agregar un destino existente.");
+                throw new RepeatedInformationException("Se ha intentado agregar un destino existente.");
+            }
 
-            travelAgency.agregarPaquete(packageObservableList, nuevoPaquete);
+            observableListDestinationName.add(choiceBoxDestinationName.getSelectionModel().getSelectedItem());
+
+            agenciaCliente.agregarDestinoEnPaquete(choiceBoxDestinationName.getSelectionModel().getSelectedItem(), nuevoPaquete);
+
+            agenciaCliente.agregarPaquete( nuevoPaquete);
         }
 
     }
@@ -768,11 +801,11 @@ public class AdminViewController {
 
             String packageName = txtFldPackageName.getText();
 
-            Optional<TouristPackage> packageSeleccionadoOpcional = travelAgency.getTouristPackages().stream()
+            Optional<TouristPackage> packageSeleccionadoOpcional = agenciaCliente.getTouristPackages().stream()
                     .filter(touristPackage -> touristPackage.getName().equals(packageName))
                     .findFirst();
 
-            travelAgency.eliminarDestinoName(packageSeleccionadoOpcional, selectedDestino);
+            agenciaCliente.eliminarDestinoName(packageSeleccionadoOpcional, selectedDestino);
 
         }
 
@@ -801,7 +834,7 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarGuiaButton() throws RepeatedInformationException, AtributoVacioException {
+    public void agregarGuiaButton() throws RepeatedInformationException {
 
         TouristGuide nuevoGuia = TouristGuide.builder()
                 .id(txtFldGuideId.getText())
@@ -811,7 +844,13 @@ public class AdminViewController {
                 .rating(Double.valueOf(txtFldRating.getText()))
                 .build();
 
-        travelAgency.agregarGuia(touristGuideObservableList, nuevoGuia);
+        if (touristGuideObservableList.stream().anyMatch(touristGuide -> touristGuide.getId().equals(nuevoGuia.getId()))){
+            throw new RepeatedInformationException("Se ha intentado registrar un guia existente.");
+        }
+
+        touristGuideObservableList.add(nuevoGuia);
+
+        agenciaCliente.agregarGuia( nuevoGuia);
 
         limpiarCamposGuias();
 
@@ -825,13 +864,13 @@ public class AdminViewController {
     }
 
     @FXML
-    public void modificarGuiaButton() throws AtributoVacioException {
+    public void modificarGuiaButton() {
 
         if (guidesTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             TouristGuide selectedGuia = guidesTable.getSelectionModel().getSelectedItem();
 
-            travelAgency.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText());
+            agenciaCliente.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText());
 
             limpiarCamposGuias();
 
@@ -853,7 +892,8 @@ public class AdminViewController {
 
             TouristGuide selectedGuia = guidesTable.getSelectionModel().getSelectedItem();
 
-            travelAgency.eliminarGuia(touristGuideObservableList, selectedGuia);
+            agenciaCliente.eliminarGuia( selectedGuia);
+            touristGuideObservableList.remove(selectedGuia);
 
             limpiarCamposGuias();
 
@@ -867,16 +907,23 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarLenguajeGuia() throws RepeatedInformationException, AtributoVacioException {
+    public void agregarLenguajeGuia() throws RepeatedInformationException {
 
         String guiaID = txtFldGuideId.getText();
 
-        Optional<TouristGuide> guiaSeleccionadoOpcional = travelAgency.getTouristGuides().stream()
+        Optional<TouristGuide> guiaSeleccionadoOpcional = agenciaCliente.getTouristGuides().stream()
                 .filter(touristGuide -> touristGuide.getId().equals(guiaID))
                 .findFirst();
 
         if (guiaSeleccionadoOpcional.isPresent()){
-            travelAgency.agregarLeaguajeGuia(observableListLenguajes, txtFldLenguaje.getText(), guiaSeleccionadoOpcional.get());
+
+            if (observableListLenguajes.stream().anyMatch(string -> string.equals(txtFldLenguaje.getText()))){
+                throw new RepeatedInformationException("Se ha intentado agregar un lenaguje existente.");
+            }
+
+            observableListLenguajes.add(txtFldLenguaje.getText());
+
+            agenciaCliente.agregarLeaguajeGuia( txtFldLenguaje.getText(), guiaSeleccionadoOpcional.get());
         } else {
 
             TouristGuide nuevoGuia = TouristGuide.builder()
@@ -886,9 +933,15 @@ public class AdminViewController {
                     .rating(Double.valueOf(txtFldRating.getText()))
                     .build();
 
-            travelAgency.agregarLeaguajeGuia(observableListLenguajes, txtFldLenguaje.getText(), nuevoGuia);
+            if (observableListLenguajes.stream().anyMatch(string -> string.equals(txtFldLenguaje.getText()))){
+                throw new RepeatedInformationException("Se ha intentado agregar un lenaguje existente.");
+            }
 
-            travelAgency.agregarGuia(touristGuideObservableList, nuevoGuia);
+            observableListLenguajes.add(txtFldLenguaje.getText());
+
+            agenciaCliente.agregarLeaguajeGuia( txtFldLenguaje.getText(), nuevoGuia);
+
+            agenciaCliente.agregarGuia( nuevoGuia);
         }
 
         txtFldLenguaje.clear();
@@ -904,11 +957,11 @@ public class AdminViewController {
 
             String guideID = txtFldGuideId.getText();
 
-            Optional<TouristGuide> guideSeleccionadoOpcional = travelAgency.getTouristGuides().stream()
+            Optional<TouristGuide> guideSeleccionadoOpcional = agenciaCliente.getTouristGuides().stream()
                     .filter(touristGuide -> touristGuide.getId().equals(guideID))
                     .findFirst();
 
-            travelAgency.eliminarLenguaje(guideSeleccionadoOpcional, selectedLenguaje);
+            agenciaCliente.eliminarLenguaje(guideSeleccionadoOpcional, selectedLenguaje);
 
         }
 
@@ -930,7 +983,7 @@ public class AdminViewController {
         if (event.getTarget() == manageDestinationsButton){visibilities(false,true,false,false,false,false);}
         if (event.getTarget() == managePackagesButton){
 
-            List<String> destinationNames = travelAgency.getDestinos().stream()
+            List<String> destinationNames = agenciaCliente.getDestinos().stream()
                     .map(Destino::getName)
                     .toList();
 
@@ -1017,4 +1070,10 @@ public class AdminViewController {
 
     }
 
+    public void createAlertError(String titleError, String contentError){
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle(titleError);
+        alert.setContentText(contentError);
+        alert.show();
+    }
 }
