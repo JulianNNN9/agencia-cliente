@@ -1,9 +1,18 @@
 module co.edu.uniquindio.agenciacliente {
+
     requires javafx.controls;
     requires javafx.fxml;
-    requires lombok;
+    requires java.logging;
+    requires javafx.graphics;
+    requires static lombok;
 
+    opens co.edu.uniquindio.agenciacliente.controllers to javafx.fxml;
 
-    opens co.edu.uniquindio.agenciacliente to javafx.fxml;
-    exports co.edu.uniquindio.agenciacliente;
+    exports co.edu.uniquindio.agenciacliente.app;
+    exports co.edu.uniquindio.agenciacliente.socket;
+    exports co.edu.uniquindio.agenciacliente.model;
+    exports co.edu.uniquindio.agenciacliente.datos;
+    exports co.edu.uniquindio.agenciacliente.controllers;
+    exports co.edu.uniquindio.agenciacliente.exceptions;
+    exports co.edu.uniquindio.agenciacliente.enums;
 }

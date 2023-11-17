@@ -48,8 +48,9 @@ public class AgenciaCliente {
 
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()
+                    .contenido(cliente)
                     .tipo("agregarCliente")
-                    .contenido(cliente).build() );
+                    .build() );
 
             //Obtenemos la respuesta del servidor
             String respuesta = in.readObject().toString();
@@ -222,7 +223,7 @@ public class AgenciaCliente {
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()
                     .contenido(nuevoDestino)
-                    .tipo("getTouristPackage").build() );
+                    .tipo("agregarDestino").build() );
 
             //Obtenemos la respuesta del servidor
             String respuesta = in.readObject().toString();
@@ -317,7 +318,7 @@ public class AgenciaCliente {
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()
                     .contenido(agregarImagenDestinoDatos)
-                    .tipo("eliminarDestino").build() );
+                    .tipo("agregarImagenDestino").build() );
 
             //Obtenemos la respuesta del servidor
             String respuesta = in.readObject().toString();
@@ -682,7 +683,7 @@ public class AgenciaCliente {
 
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()
-                    .tipo("getDestinos").build() );
+                    .tipo("getClientes").build() );
 
             //Obtenemos la respuesta del servidor
             List<Client>  respuesta = (List<Client> ) in.readObject();
