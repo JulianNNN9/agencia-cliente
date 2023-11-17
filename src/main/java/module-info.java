@@ -6,13 +6,13 @@ module co.edu.uniquindio.agenciacliente {
     requires javafx.graphics;
     requires static lombok;
 
-    opens co.edu.uniquindio.agenciacliente.controllers to javafx.fxml;
+    opens co.edu.uniquindio.ingesis.controllers to javafx.fxml;
 
-    exports co.edu.uniquindio.agenciacliente.app;
-    exports co.edu.uniquindio.agenciacliente.socket;
-    exports co.edu.uniquindio.agenciacliente.model;
-    exports co.edu.uniquindio.agenciacliente.datos;
-    exports co.edu.uniquindio.agenciacliente.controllers;
-    exports co.edu.uniquindio.agenciacliente.exceptions;
-    exports co.edu.uniquindio.agenciacliente.enums;
+    exports co.edu.uniquindio.ingesis.app;
+    exports co.edu.uniquindio.ingesis.socket;
+    exports co.edu.uniquindio.ingesis.model;
+    exports co.edu.uniquindio.ingesis.datos;
+    exports co.edu.uniquindio.ingesis.controllers;
+    exports co.edu.uniquindio.ingesis.exceptions;
+    exports co.edu.uniquindio.ingesis.enums;
 }

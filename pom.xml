@@ -74,7 +74,7 @@
                         <id>default-cli</id>
                         <configuration>
                             <mainClass>
-                                co.edu.uniquindio.agenciacliente/co.edu.uniquindio.agenciacliente.app.AgenciaclienteApp
+                                co.edu.uniquindio.agenciacliente/co.edu.uniquindio.ingesis.app.AgenciaclienteApp
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
