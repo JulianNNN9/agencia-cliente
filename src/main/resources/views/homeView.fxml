@@ -85,7 +85,7 @@
         <Separator prefHeight="1.0" prefWidth="5.0" visible="false" />
     </HBox>
 
-    <AnchorPane fx:id="homePane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;">
+    <AnchorPane fx:id="homePane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;" visible="false">
         <Label layoutX="59.0" layoutY="96.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="¿Quienes Somos?">
             <font>
                 <Font size="60" />
@@ -163,7 +163,12 @@
         </Label>
     </AnchorPane>
 
-    <AnchorPane fx:id="iniciarsesionPane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;" visible="false">
+    <AnchorPane fx:id="iniciarsesionPane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;">
+        <Label layoutX="388.0" layoutY="43.0" style="-fx-text-fill: #d99b5e; -fx-font-family: 'Segoe UI Semibold'" text="Inicio de sesión">
+            <font>
+                <Font size="25" />
+            </font>
+        </Label>
         <Pane layoutX="346.0" layoutY="141.0" prefHeight="333.0" prefWidth="258.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
             <Label layoutX="36.0" layoutY="46.0" text="ID">
                 <font>
