@@ -298,7 +298,7 @@ public class HomeController {
 
         Optional<Client> optionalClient = agenciaCliente.getClients().stream().filter(client ->  client.getUserId().equals(clientID)).findFirst();
 
-        if (optionalClient.isPresent()){
+        if (optionalClient.isPresent() && optionalClient.get().getReservationList() != null){
 
             List<LocalDate> endDates = optionalClient.get().getReservationList().stream()
                     .map(Reservation::getEndDate)
@@ -340,37 +340,41 @@ public class HomeController {
 
         if (optionalClient.isPresent()){
 
-            for (Reservation reservation : optionalClient.get().getReservationList()){
+            if (optionalClient.get().getReservationList() != null){
 
-                if (LocalDate.now().isAfter(reservation.getEndDate()) && reservation.getReservationStatus().equals(ReservationStatus.CONFIRMED)){
+                for (Reservation reservation : optionalClient.get().getReservationList()){
 
-                    hboxCliente.setVisible(false);
-                    visibilitiesClient(false, false, false, true, false);
+                    if (LocalDate.now().isAfter(reservation.getEndDate()) && reservation.getReservationStatus().equals(ReservationStatus.CONFIRMED)){
 
-                    for (String nombreDestinoCalificar : reservation.getTouristPackage().getDestinosName()) {
+                        hboxCliente.setVisible(false);
+                        visibilitiesClient(false, false, false, true, false);
 
-                        Optional<Destino> optionalDestino = agenciaCliente.getDestinos()
-                                .stream()
-                                .filter(destino -> destino.getName().equals(nombreDestinoCalificar))
-                                .findFirst();
+                        for (String nombreDestinoCalificar : reservation.getTouristPackage().getDestinosName()) {
 
-                        cargarNombreDestinoCalificar.setText(nombreDestinoCalificar);
-                        cargaImagenDestinoCalificar.setImage(new Image(optionalDestino.get().getImagesHTTPS().get(0)));
+                            Optional<Destino> optionalDestino = agenciaCliente.getDestinos()
+                                    .stream()
+                                    .filter(destino -> destino.getName().equals(nombreDestinoCalificar))
+                                    .findFirst();
 
-                        optionalDestino.ifPresent(destino -> calificarDestinoButton.setOnAction(actionEvent -> {
+                            cargarNombreDestinoCalificar.setText(nombreDestinoCalificar);
+                            cargaImagenDestinoCalificar.setImage(new Image(optionalDestino.get().getImagesHTTPS().get(0)));
+
+                            optionalDestino.ifPresent(destino -> calificarDestinoButton.setOnAction(actionEvent -> {
                                 agenciaCliente.calificarDestino(destino, txtAreaComentario.getText(), groupCalificacionDestino.getSelectedToggle().toString());
 
                                 groupCalificacionDestino.getSelectedToggle().setSelected(false);
                                 txtAreaComentario.clear();
-                        }));
+                            }));
+                        }
+
+                        hboxCliente.setVisible(true);
+                        visibilitiesClient(true, false, false, false, false);
+
                     }
 
-                    hboxCliente.setVisible(true);
-                    visibilitiesClient(true, false, false, false, false);
-
                 }
-
             }
+
 
         }
 
@@ -456,7 +460,7 @@ public class HomeController {
 
             List<Reservation> reservationsData = new ArrayList<>();
 
-            if (client.isPresent()) {
+            if (client.isPresent() && client.get().getReservationList() != null) {
                 reservationsData = client.get().getReservationList();
             }
 
@@ -631,6 +635,8 @@ public class HomeController {
         if (event.getTarget() == guiasBtn) {
             visibilitiesPrincipal(false,false,true,false);}
         if (event.getTarget() == iniciaSecionBtn) {
+            txtFldID.clear();
+            passwordFldInicioSesion.clear();
             visibilitiesPrincipal(false,false,false,true);}
 
     }
@@ -660,7 +666,7 @@ public class HomeController {
         stage.close();
     }
 
-    public void onLogInButtonClick() throws IOException, AtributoVacioException {
+    public void onLogInButtonClick() throws IOException, AtributoVacioException, WrongPasswordException {
 
         if (txtFldID.getText() == null || txtFldID.getText().isBlank() ||
                 passwordFldInicioSesion.getText() == null || passwordFldInicioSesion.getText().isBlank()){
@@ -674,6 +680,11 @@ public class HomeController {
         Optional<Client> optionalClient = agenciaCliente.getClients().stream().filter(client -> client.getUserId().equals(txtFldID.getText())).findFirst();
 
         if(sesion.equals("Client")){
+
+            if (agenciaCliente.getClients().stream().noneMatch(client -> client.getPassword().equals(passwordFldInicioSesion.getText()))){
+                createAlertError("Error", "La contraseña ingresada es incorrecta.");
+                throw new WrongPasswordException("Se ha hecho un intento de inicio de sesión con datos incorrectos.");
+            }
 
             hboxPanePrincipal.setVisible(false);
             hboxCliente.setVisible(true);
@@ -689,6 +700,11 @@ public class HomeController {
             bienvenidoLabel.setText("Bienvenido de nuevo, " + firstName[0]);
 
         } else if (sesion.equals("Admin")) {
+
+            if (agenciaCliente.getAdmins().stream().noneMatch(admin -> admin.getPassword().equals(passwordFldInicioSesion.getText()))){
+                createAlertError("Error", "La contraseña ingresada es incorrecta.");
+                throw new WrongPasswordException("Se ha hecho un intento de inicio de sesión con datos incorrectos.");
+            }
 
             generateWindow("src/main/resources/views/adminView.fxml", cerrarVentanaImgvPrincipal);
 
@@ -755,6 +771,7 @@ public class HomeController {
         mailTF.clear();
         telefonoTF.clear();
         residenciaTF.clear();
+        passwordFldRegistro.clear();
     }
     public void onRegisterButtonClck() {visibilitiesRegister(false,true);}
 

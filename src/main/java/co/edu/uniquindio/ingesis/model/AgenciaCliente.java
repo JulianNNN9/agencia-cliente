@@ -699,6 +699,32 @@ public class AgenciaCliente {
         }
     }
 
+    public List<Admin> getAdmins() {
+        try (Socket socket = new Socket(HOST, PUERTO)){
+
+            //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+            //Se envía un mensaje al servidor con los datos de la petición
+            out.writeObject( Mensaje.builder()
+                    .tipo("getAdmins").build() );
+
+            //Obtenemos la respuesta del servidor
+            List<Admin>  respuesta = (List<Admin> ) in.readObject();
+
+            //Se cierran los flujos de entrada y de salida para liberar los recursos
+            in.close();
+            out.close();
+
+            return respuesta;
+
+        }catch (Exception e){
+            log.severe(e.getMessage());
+            throw new RuntimeException(e);
+        }
+    }
+
     public String calificarGuia(TouristGuide touristGuide, String estrellas) {
         try (Socket socket = new Socket(HOST, PUERTO)){
 
