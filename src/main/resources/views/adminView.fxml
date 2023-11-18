@@ -45,6 +45,7 @@
                 </cursor>
      </Button>
         </VBox>
+      <Label fx:id="moverVentana" prefHeight="25.0" prefWidth="45.0" />
 
     </Pane>
 
