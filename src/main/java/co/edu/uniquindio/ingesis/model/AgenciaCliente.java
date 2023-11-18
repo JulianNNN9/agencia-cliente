@@ -49,8 +49,7 @@ public class AgenciaCliente {
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()
                     .contenido(cliente)
-                    .tipo("agregarCliente")
-                    .build() );
+                    .tipo("registrarCliente").build() );
 
             //Obtenemos la respuesta del servidor
             String respuesta = in.readObject().toString();
@@ -241,6 +240,7 @@ public class AgenciaCliente {
     }
 
     public String modificarDestino(Destino destino, String nuevoName, String nuevaCiudad, String nuevaDescripcion, String nuevoClima) {
+
         try (Socket socket = new Socket(HOST, PUERTO)){
 
             //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
@@ -253,7 +253,6 @@ public class AgenciaCliente {
                     .nuevaCiudad(nuevaCiudad)
                     .nuevaDescripcion(nuevaDescripcion)
                     .nuevoClima(nuevoClima).build();
-
 
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()

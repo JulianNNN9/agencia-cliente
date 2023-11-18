@@ -27,12 +27,16 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import java.io.File;
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
 public class AdminViewController {
 
     private final AgenciaCliente agenciaCliente = AgenciaCliente.getInstance();
+
+    private double xOffset = 0;
+    private double yOffset = 0;
 
     //Ventana principal
 
@@ -55,6 +59,8 @@ public class AdminViewController {
     public ChoiceBox<String> choiceBoxClima;
     @FXML
     public TextField txtFldRuta;
+    @FXML
+    public Label moverVentana;
     @FXML
     ObservableList<String> observableListRutas;
     @FXML
@@ -146,6 +152,18 @@ public class AdminViewController {
     private List<Reservation> reservations = agenciaCliente.getReservations();
 
     public void initialize(){
+
+        moverVentana.setOnMousePressed((MouseEvent event) -> {
+            // Guarda las coordenadas iniciales del clic del ratón
+            xOffset = event.getSceneX();
+            yOffset = event.getSceneY();
+        });
+
+        moverVentana.setOnMouseDragged((MouseEvent event) -> {
+            // Calcula el desplazamiento y ajusta las coordenadas de la ventana
+            moverVentana.getScene().getWindow().setX(event.getScreenX() - xOffset);
+            moverVentana.getScene().getWindow().setY(event.getScreenY() - yOffset);
+        });
 
         //Imagenes
 
@@ -311,6 +329,7 @@ public class AdminViewController {
         addLenguajeButton.setDisable(true);
         deleteLenguajeButton.setDisable(true);
         txtFldLenguaje.setDisable(true);
+        modifyButtonGuides.setDisable(true);
 
         observableListLenguajes = guidesLenguajeTable.getItems();
 
@@ -322,6 +341,7 @@ public class AdminViewController {
             addLenguajeButton.setDisable(!seleccionado);
             deleteLenguajeButton.setDisable(!seleccionado);
             txtFldLenguaje.setDisable(!seleccionado);
+            modifyButtonGuides.setDisable(!seleccionado);
 
             if (seleccionado) {
                 if (Objects.requireNonNull(newValue).getLanguages() != null) {
@@ -478,7 +498,16 @@ public class AdminViewController {
     }
 
     @FXML
-    private void agregarElementoDestinations() throws RepeatedInformationException {
+    private void agregarElementoDestinations() throws RepeatedInformationException, AtributoVacioException {
+
+        if (txtFldName.getText().isEmpty() || txtFldName.getText() == null ||
+                txtFldCity.getText().isEmpty() || txtFldCity.getText() == null ||
+                txtFldDescription.getText().isEmpty() || txtFldDescription.getText() == null ||
+                choiceBoxClima.getValue().isEmpty() || choiceBoxClima.getValue() == null) {
+
+            createAlertError("Error", "Se ha intentado agregar un destino con campos vacios.");
+            throw new AtributoVacioException("Se ha intentado agregar un destino con campos vacios.");
+        }
 
         Destino nuevoDestino = Destino.builder()
                 .name(txtFldName.getText())
@@ -510,12 +539,27 @@ public class AdminViewController {
     }
 
     @FXML
-    private void modificarElementoDestinations() {
+    private void modificarElementoDestinations() throws AtributoVacioException {
+
         if (destinationsTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             Destino selectedDestino = destinationsTable.getSelectionModel().getSelectedItem();
 
+            if (txtFldName.getText().isEmpty() ||
+                    txtFldCity.getText().isEmpty() ||
+                    txtFldDescription.getText().isEmpty() ||
+                    choiceBoxClima.getValue().isEmpty()) {
+
+                createAlertError("Error", "Se ha intentado agregar un destino con campos vacios.");
+                throw new AtributoVacioException("Se ha intentado agregar un destino con campos vacios.");
+            }
+
             agenciaCliente.modificarDestino(selectedDestino, txtFldName.getText(), txtFldCity.getText(), txtFldDescription.getText(), choiceBoxClima.getValue());
+
+            selectedDestino.setName(txtFldName.getText());
+            selectedDestino.setCity(txtFldCity.getText());
+            selectedDestino.setWeather(choiceBoxClima.getValue());
+            selectedDestino.setDescription(txtFldDescription.getText());
 
             limpiarCamposDestinations();
 
@@ -529,8 +573,6 @@ public class AdminViewController {
             modifyButtonDestination.setDisable(true);
 
             imagesRoutesTable.refresh();
-
-            System.out.println(selectedDestino);
         }
 
     }
@@ -579,7 +621,12 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarRutaImagenDestinations() throws RepeatedInformationException {
+    public void agregarRutaImagenDestinations() throws RepeatedInformationException, EmptyAttributeException {
+
+        if (txtFldRuta.getText() == null || txtFldRuta.getText().isEmpty()){
+            createAlertError("Error", "Atributos vacios");
+            throw new EmptyAttributeException("Atributos vacíos.");
+        }
 
         String destinoName = txtFldName.getText();
 
@@ -590,7 +637,8 @@ public class AdminViewController {
         if (destinoSeleccionadoOpcional.isPresent()) {
 
             if (observableListRutas.stream().anyMatch(string -> string.equals(txtFldRuta.getText()))){
-                throw new RepeatedInformationException("Se ha intentado crear una ruta existente.");
+                createAlertError("Error", "Se ha intentado añadir una ruta existente.");
+                throw new RepeatedInformationException("Se ha intentado añadir una ruta existente.");
             }
 
             observableListRutas.add(txtFldRuta.getText());
@@ -606,6 +654,7 @@ public class AdminViewController {
                     .weather(choiceBoxClima.getValue())
                     .build();
 
+            observableListRutas.add(txtFldRuta.getText());
             agenciaCliente.agregarImagenDestino(txtFldRuta.getText(), nuevoDestino);
 
             agenciaCliente.agregarDestino(nuevoDestino);
@@ -640,6 +689,7 @@ public class AdminViewController {
         txtFldName.clear();
         txtFldCity.clear();
         choiceBoxClima.setValue(null);
+        imagesRoutesTable.getItems().clear();
         txtFldDescription.clear();
     }
 
@@ -655,7 +705,7 @@ public class AdminViewController {
     }
 
     @FXML
-    private void agregarElementoPackages() throws RepeatedInformationException, EmptyAttributeException {
+    private void agregarElementoPackages() throws RepeatedInformationException, EmptyAttributeException, ErrorEnIngresoFechasException {
 
         long duration = 0;
 
@@ -668,6 +718,21 @@ public class AdminViewController {
             throw new EmptyAttributeException("Atributos vacíos.");
         }
 
+        if ( txtFldPackageName.getText() == null || txtFldPackageName.getText().isEmpty() ||
+                txtFldPrice.getText() == null || txtFldPrice.getText().isEmpty() ||
+                txtFldQuota.getText() == null || txtFldQuota.getText().isEmpty() ||
+                datePckrStartDate.getValue() == null ||
+                datePckrEndDate.getValue() == null){
+
+            createAlertError("Error", "Atributos vacios");
+            throw new EmptyAttributeException("Atributos vacíos.");
+        }
+
+        if (LocalDate.now().isAfter(datePckrEndDate.getValue())){
+            createAlertError("Error", "Las fechas fueron incorrectamente colocadas.");
+            throw new ErrorEnIngresoFechasException("Las fechas fueron incorrectamente colocadas.");
+        }
+
         TouristPackage nuevoPaquete = TouristPackage.builder()
                 .name(txtFldPackageName.getText())
                 .price(Double.valueOf(txtFldPrice.getText()))
@@ -678,6 +743,7 @@ public class AdminViewController {
                 .build();
 
         if (packageObservableList.stream().anyMatch(touristPackage -> touristPackage.getName().equals(nuevoPaquete.getName()))){
+            createAlertError("Error", "Se ha intentado crear un paquete existente.");
             throw new RepeatedInformationException("Se ha intentado crear un paquete existente.");
         }
 
@@ -696,13 +762,29 @@ public class AdminViewController {
     }
 
     @FXML
-    private void modificarElementoPackages() {
+    private void modificarElementoPackages() throws AtributoVacioException {
 
         if (packagesTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             TouristPackage selectedPackage = packagesTable.getSelectionModel().getSelectedItem();
 
+            if ( txtFldPackageName.getText() == null || txtFldPackageName.getText().isEmpty() ||
+                    Double.parseDouble(txtFldPrice.getText()) < 0 ||
+                    Integer.parseInt(txtFldQuota.getText()) < 0 ||
+                    datePckrStartDate.getValue() == null ||
+                    datePckrEndDate.getValue() == null){
+
+                createAlertError("Error", "Se ha intentado agregar un destino con campos vacios.");
+                throw new AtributoVacioException("Se ha intentado agregar un destino con campos vacios.");
+            }
+
             agenciaCliente.modificarPaquete(selectedPackage, txtFldPackageName.getText(), Double.parseDouble(txtFldPrice.getText()), Integer.parseInt(txtFldQuota.getText()), datePckrStartDate.getValue(), datePckrEndDate.getValue());
+
+            selectedPackage.setName(txtFldPackageName.getText());
+            selectedPackage.setPrice(Double.parseDouble(txtFldPrice.getText()));
+            selectedPackage.setQuota(Integer.parseInt(txtFldQuota.getText()));
+            selectedPackage.setStartDate(datePckrStartDate.getValue());
+            selectedPackage.setEndDate(datePckrEndDate.getValue());
 
             limpiarCamposPackages();
 
@@ -723,6 +805,7 @@ public class AdminViewController {
 
     @FXML
     private void eliminarElementoPackages() {
+
         if (packagesTable.getSelectionModel().getSelectedIndex() >= 0) {
             TouristPackage selectedPackage = packagesTable.getSelectionModel().getSelectedItem();
 
@@ -730,6 +813,7 @@ public class AdminViewController {
             packageObservableList.remove(selectedPackage);
 
             limpiarCamposPackages();
+
             destinationsNameTable.setDisable(true);
             addButtonDestinationName.setDisable(true);
             deleteButtonDestinationName.setDisable(true);
@@ -820,6 +904,7 @@ public class AdminViewController {
         txtFldQuota.clear();
         datePckrEndDate.setValue(null);
         datePckrStartDate.setValue(null);
+        destinationsNameTable.getItems().clear();
     }
 
     //----------------------------Guides-----------------------------
@@ -834,7 +919,16 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarGuiaButton() throws RepeatedInformationException {
+    public void agregarGuiaButton() throws RepeatedInformationException, AtributoVacioException {
+
+        if (txtFldGuideId.getText() == null || txtFldGuideId.getText().isEmpty() ||
+                txtFldFullNameGuide.getText() == null || txtFldFullNameGuide.getText().isEmpty() ||
+                txtFldExperience.getText() == null || txtFldExperience.getText().isEmpty() ||
+                txtFldRating.getText() == null){
+
+            createAlertError("Error", "Se ha intentado agregar un guia con campos vacios.");
+            throw new AtributoVacioException("Se ha intentado agregar un guia con campos vacios.");
+        }
 
         TouristGuide nuevoGuia = TouristGuide.builder()
                 .id(txtFldGuideId.getText())
@@ -845,6 +939,7 @@ public class AdminViewController {
                 .build();
 
         if (touristGuideObservableList.stream().anyMatch(touristGuide -> touristGuide.getId().equals(nuevoGuia.getId()))){
+            createAlertError("Error", "Se ha intentado registrar un guia existente.");
             throw new RepeatedInformationException("Se ha intentado registrar un guia existente.");
         }
 
@@ -864,13 +959,27 @@ public class AdminViewController {
     }
 
     @FXML
-    public void modificarGuiaButton() {
+    public void modificarGuiaButton() throws AtributoVacioException {
 
         if (guidesTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             TouristGuide selectedGuia = guidesTable.getSelectionModel().getSelectedItem();
 
+            if (txtFldGuideId.getText() == null || txtFldGuideId.getText().isEmpty() ||
+                    txtFldFullNameGuide.getText() == null || txtFldFullNameGuide.getText().isEmpty() ||
+                    txtFldExperience.getText() == null || txtFldExperience.getText().isEmpty() ||
+                    txtFldRating.getText() == null){
+
+                createAlertError("Error", "Se ha intentado agregar un guia con campos vacios.");
+                throw new AtributoVacioException("Se ha intentado agregar un guia con campos vacios.");
+            }
+
             agenciaCliente.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText());
+
+            selectedGuia.setId(txtFldGuideId.getText());
+            selectedGuia.setFullName(txtFldFullNameGuide.getText());
+            selectedGuia.setExperience(txtFldExperience.getText());
+            selectedGuia.setRating(Double.valueOf(txtFldRating.getText()));
 
             limpiarCamposGuias();
 
@@ -888,6 +997,7 @@ public class AdminViewController {
 
     @FXML
     public void eliminarGuiaButton() {
+
         if (guidesTable.getSelectionModel().getSelectedIndex() >= 0) {
 
             TouristGuide selectedGuia = guidesTable.getSelectionModel().getSelectedItem();
@@ -907,7 +1017,7 @@ public class AdminViewController {
     }
 
     @FXML
-    public void agregarLenguajeGuia() throws RepeatedInformationException {
+    public void agregarLenguajeGuia() throws RepeatedInformationException, AtributoVacioException {
 
         String guiaID = txtFldGuideId.getText();
 
@@ -915,9 +1025,15 @@ public class AdminViewController {
                 .filter(touristGuide -> touristGuide.getId().equals(guiaID))
                 .findFirst();
 
+        if (txtFldLenguaje.getText() == null || txtFldLenguaje.getText().isEmpty()){
+            createAlertError("Error", "Se ha intentado agregar un idioma vacio.");
+            throw new AtributoVacioException("Se ha intentado agregar un idioma vacio.");
+        }
+
         if (guiaSeleccionadoOpcional.isPresent()){
 
             if (observableListLenguajes.stream().anyMatch(string -> string.equals(txtFldLenguaje.getText()))){
+                createAlertError("Error", "Se ha intentado agregar un lenaguje existente.");
                 throw new RepeatedInformationException("Se ha intentado agregar un lenaguje existente.");
             }
 
@@ -934,6 +1050,7 @@ public class AdminViewController {
                     .build();
 
             if (observableListLenguajes.stream().anyMatch(string -> string.equals(txtFldLenguaje.getText()))){
+                createAlertError("Error", "Se ha intentado agregar un lenaguje existente.");
                 throw new RepeatedInformationException("Se ha intentado agregar un lenaguje existente.");
             }
 
@@ -974,6 +1091,7 @@ public class AdminViewController {
         txtFldFullNameGuide.clear();
         txtFldExperience.clear();
         txtFldRating.clear();
+        guidesLenguajeTable.getItems().clear();
     }
 
 

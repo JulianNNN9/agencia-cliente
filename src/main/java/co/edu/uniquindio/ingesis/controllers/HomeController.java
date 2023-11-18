@@ -599,11 +599,24 @@ public class HomeController {
         visibilitiesClient(false, true, false, false, false);
     }
 
-    public void onConfiRegistrarClienteClick() {
-        visibilitiesRegister(true, false);
+    public void onConfiRegistrarClienteClick() throws AtributoVacioException {
+
+        if(idTF.getText() == null || idTF.getText().isBlank() ||
+                passwordFldRegistro.getText() == null || passwordFldRegistro.getText().isBlank() ||
+                nombreTF.getText() == null || nombreTF.getText().isBlank() ||
+                mailTF.getText() == null || mailTF.getText().isBlank() ||
+                telefonoTF.getText() == null || telefonoTF.getText().isBlank() ||
+                residenciaTF.getText() == null || residenciaTF.getText().isBlank()){
+
+            createAlertError("Error", "Se ha hecho un intento de registro de cliente con campos vacios.");
+            throw new AtributoVacioException("Se ha hecho un intento de registro de cliente con campos vacios.");
+        }
+
         String mensaje = agenciaCliente.registrarCliente(idTF.getText(),passwordFldRegistro.getText(),nombreTF.getText(),mailTF.getText(),telefonoTF.getText(),residenciaTF.getText());
 
         createAlertInfo("Registro cliente", "Información", mensaje);
+
+        visibilitiesRegister(true, false);
 
     }
 
@@ -647,10 +660,16 @@ public class HomeController {
         stage.close();
     }
 
-    public void onLogInButtonClick() throws IOException {
+    public void onLogInButtonClick() throws IOException, AtributoVacioException {
+
+        if (txtFldID.getText() == null || txtFldID.getText().isBlank() ||
+                passwordFldInicioSesion.getText() == null || passwordFldInicioSesion.getText().isBlank()){
+
+            createAlertError("Error", "Se ha hecho un intento de inicio de sesion con campos vacios.");
+            throw new AtributoVacioException("Se ha hecho un intento de inicio de sesion con campos vacios.");
+        }
 
         String sesion = agenciaCliente.LogIn(txtFldID.getText(), passwordFldInicioSesion.getText());
-
 
         Optional<Client> optionalClient = agenciaCliente.getClients().stream().filter(client -> client.getUserId().equals(txtFldID.getText())).findFirst();
 
@@ -671,7 +690,7 @@ public class HomeController {
 
         } else if (sesion.equals("Admin")) {
 
-            generateWindow("src/main/resources/views/adminView.fxml",cerrarVentanaImgvPrincipal);
+            generateWindow("src/main/resources/views/adminView.fxml", cerrarVentanaImgvPrincipal);
 
         } else {
             createAlertError("El usuario ingresado no existe", "Verifique los datos");
@@ -728,7 +747,15 @@ public class HomeController {
         dE = tblDe.getItems();
     }
 
-    public void registroExit() {visibilitiesRegister(true,false);}
+    public void registroExit() {
+        visibilitiesRegister(true,false);
+
+        nombreTF.clear();
+        idTF.clear();
+        mailTF.clear();
+        telefonoTF.clear();
+        residenciaTF.clear();
+    }
     public void onRegisterButtonClck() {visibilitiesRegister(false,true);}
 
     public void onLogOutButtonClick() throws IOException {
