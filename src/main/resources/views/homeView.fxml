@@ -48,7 +48,7 @@
     </HBox>
 
     <HBox fx:id="hboxCliente" alignment="CENTER" prefHeight="60.0" prefWidth="949.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15;" visible="false">
-        <Separator prefHeight="10.0" prefWidth="25.0" visible="false" />
+        <Separator prefHeight="0.0" prefWidth="14.0" visible="false" />
 
         <Label alignment="CENTER" prefHeight="56.0" prefWidth="123.0" text="Travel agency">
             <font>
@@ -56,9 +56,19 @@
             </font>
         </Label>
 
-        <Separator prefHeight="8.0" prefWidth="562.0" visible="false" />
+        <Separator prefHeight="0.0" prefWidth="308.0" visible="false" />
 
         <Button fx:id="reservarButton" mnemonicParsing="false" onAction="#onReservarClick" prefHeight="60.0" prefWidth="83.0" style="-fx-border-radius: 35; -fx-background-radius: 35; -fx-border-style: none; -fx-border-color: transparent; -fx-background-color: transparent; -fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15;" text="Reservar">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="paquetesClienteBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="508.0" layoutY="18.0" mnemonicParsing="false" onAction="#onPaquetesClienteClick" prefHeight="60.0" prefWidth="150.0" style="-fx-border-radius: 35; -fx-background-radius: 35; -fx-border-style: none; -fx-border-color: transparent; -fx-background-color: transparent; -fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15;" text="Nuestros Paquetes" textAlignment="CENTER">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor>
+        </Button>
+        <Button fx:id="guiasClienteBtn" alignment="CENTER" contentDisplay="CENTER" layoutX="555.0" layoutY="18.0" mnemonicParsing="false" onAction="#onGuiasClienteClick" prefHeight="60.0" prefWidth="126.0" style="-fx-border-radius: 35; -fx-background-radius: 35; -fx-border-style: none; -fx-border-color: transparent; -fx-background-color: transparent; -fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15;" text="Nuestros guias" textAlignment="CENTER">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
@@ -85,7 +95,7 @@
         <Separator prefHeight="1.0" prefWidth="5.0" visible="false" />
     </HBox>
 
-    <AnchorPane fx:id="homePane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;" visible="false">
+    <AnchorPane fx:id="homePane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;">
         <Label layoutX="59.0" layoutY="96.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="¿Quienes Somos?">
             <font>
                 <Font size="60" />
@@ -128,42 +138,60 @@
             </columns>
         </TableView>
 
-        <TableView fx:id="tblDe" layoutX="71.0" layoutY="319.0" prefHeight="272.0" prefWidth="401.0">
+        <TableView fx:id="tblDe" layoutX="250.0" layoutY="316.0" prefHeight="272.0" prefWidth="180.0">
             <columns>
-                <TableColumn fx:id="colDeNombre" prefWidth="102.0" text="Nombre" />
-                <TableColumn fx:id="colDeCiudad" prefWidth="94.0" text="Ciudad" />
-                <TableColumn fx:id="colDeDescription" prefWidth="124.0" text="Descripcion" />
-                <TableColumn fx:id="colDeClima" prefWidth="76.0" text="Clima" />
+                <TableColumn fx:id="colDeNombre" prefWidth="174.0" text="Nombre" />
             </columns>
         </TableView>
 
-        <ImageView fx:id="mostrarDestinoImg" fitHeight="235.0" fitWidth="287.0" layoutX="571.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true" />
-        <ImageView fx:id="imagenAnteriorImg" fitHeight="36.0" fitWidth="35.0" layoutX="623.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="mostrarDestinoImg" fitHeight="235.0" fitWidth="287.0" layoutX="532.0" layoutY="316.0" pickOnBounds="true" preserveRatio="true" />
+        <ImageView fx:id="imagenAnteriorImg" fitHeight="36.0" fitWidth="35.0" layoutX="598.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
             <Image url="@../icons/izquierda.png" />
         </ImageView>
-        <ImageView fx:id="imagenSiguienteImg" fitHeight="36.0" fitWidth="35.0" layoutX="765.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
+        <ImageView fx:id="imagenSiguienteImg" fitHeight="36.0" fitWidth="35.0" layoutX="717.0" layoutY="555.0" pickOnBounds="true" preserveRatio="true">
             <cursor>
                 <Cursor fx:constant="HAND" />
             </cursor>
             <Image url="@../icons/derecha.png" />
         </ImageView>
-      <Label layoutX="73.0" layoutY="292.0" prefHeight="18.0" prefWidth="173.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Destinos del paquete :" />
-      <Label fx:id="vistaPreviaLabel" layoutX="572.0" layoutY="292.0" prefHeight="18.0" prefWidth="173.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Vista previa del destino :" />
+      <Label layoutX="263.0" layoutY="292.0" prefHeight="18.0" prefWidth="173.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Destinos del paquete :" />
+      <Label fx:id="vistaPreviaLabel" layoutX="589.0" layoutY="292.0" prefHeight="18.0" prefWidth="173.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Vista previa del destino :" />
 
     </AnchorPane>
 
     <AnchorPane fx:id="nuestrosGuiasPane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;" visible="false">
-        <Label layoutX="387.0" layoutY="33.0" text="Guias pane" textFill="#eeeaea">
+        <Label layoutX="318.0" layoutY="33.0" style="-fx-text-fill: #d99b5e; -fx-font-family: 'Segoe UI Semibold'" text="Nuestros tres mejores guías">
             <font>
-                <Font size="36.0" />
+                <Font size="25" />
             </font>
         </Label>
+      <Pane layoutX="73.0" layoutY="112.0" prefHeight="391.0" prefWidth="245.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
+         <children>
+            <ImageView fx:id="fotoMejorGuia1" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 50; -fx-background-radius: 50" />
+            <Label fx:id="calificacionMejorGuia1Label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guía" textAlignment="CENTER" />
+            <Label fx:id="nombreMejorGuia1Label" alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+            <Label fx:id="idiomasMejorGuia1Label" alignment="CENTER" layoutX="10.0" layoutY="300.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+         </children></Pane>
+        <Pane layoutX="353.0" layoutY="170.0" prefHeight="391.0" prefWidth="245.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
+         <children>
+            <ImageView fx:id="fotoMejorGuia2" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 50; -fx-background-radius: 50" />
+             <Label fx:id="calificacionMejorGuia2Label" alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guia" textAlignment="CENTER" />
+             <Label fx:id="nombreMejorGuia2Label" alignment="CENTER" layoutX="11.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+             <Label fx:id="idiomasMejorGuia2Label" alignment="CENTER" layoutX="11.0" layoutY="300.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+         </children></Pane>
+        <Pane layoutX="633.0" layoutY="112.0" prefHeight="391.0" prefWidth="245.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
+         <children>
+            <ImageView fx:id="fotoMejorGuia3" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 50; -fx-background-radius: 50" />
+             <Label fx:id="calificacionMejorGuia3Label" alignment="CENTER" layoutX="9.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guía" textAlignment="CENTER" />
+             <Label fx:id="nombreMejorGuia3Label" alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+             <Label fx:id="idiomasMejorGuia3Label" alignment="CENTER" layoutX="9.0" layoutY="299.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+         </children></Pane>
     </AnchorPane>
 
-    <AnchorPane fx:id="iniciarsesionPane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;">
+    <AnchorPane fx:id="iniciarsesionPane" layoutY="66.0" prefHeight="615.0" prefWidth="950.0" style="-fx-background-color: #383838; -fx-background-radius: 15;" visible="false">
         <Label layoutX="388.0" layoutY="43.0" style="-fx-text-fill: #d99b5e; -fx-font-family: 'Segoe UI Semibold'" text="Inicio de sesión">
             <font>
                 <Font size="25" />

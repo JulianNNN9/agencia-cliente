@@ -1,6 +1,9 @@
 package co.edu.uniquindio.ingesis.model;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.experimental.SuperBuilder;
 
 import java.io.Serializable;
@@ -17,5 +20,6 @@ public class Client extends User implements Serializable {
     private String phoneNumber;
     private String residence;
     private List<Reservation> reservationList = new ArrayList<>();
+    private List<Double> descuentos = new ArrayList<>();
 
 }
