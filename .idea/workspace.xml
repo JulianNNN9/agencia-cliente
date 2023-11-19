@@ -7,16 +7,6 @@
     <list default="true" id="63d5de39-b50b-4a9a-9fff-69d87c2cd862" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/AdminViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/AdminViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/HomeController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/EliminarDestinoName.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/EliminarDestinoName.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/EliminarLenguajeDatos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/EliminarLenguajeDatos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/EliminarRutaDatos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/EliminarRutaDatos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/ModificarGuiaDatos.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/datos/ModificarGuiaDatos.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/AgenciaCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/AgenciaCliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/TouristGuide.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/TouristGuide.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/adminView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/adminView.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -125,7 +115,7 @@
       <workItem from="1700268173761" duration="10370000" />
       <workItem from="1700314358981" duration="8312000" />
       <workItem from="1700348053314" duration="6968000" />
-      <workItem from="1700412178421" duration="10483000" />
+      <workItem from="1700412178421" duration="10980000" />
     </task>
     <servers />
   </component>

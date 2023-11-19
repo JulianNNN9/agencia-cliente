@@ -341,7 +341,6 @@ public class AdminViewController {
             addLenguajeButton.setDisable(!seleccionado);
             deleteLenguajeButton.setDisable(!seleccionado);
             txtFldLenguaje.setDisable(!seleccionado);
-            txtFldRutaFoto.setDisable(!seleccionado);
             modifyButtonGuides.setDisable(!seleccionado);
 
             if (seleccionado) {
@@ -919,7 +918,6 @@ public class AdminViewController {
         addLenguajeButton.setDisable(true);
         deleteLenguajeButton.setDisable(true);
         txtFldLenguaje.setDisable(true);
-        txtFldRutaFoto.setDisable(true);
     }
 
     @FXML
