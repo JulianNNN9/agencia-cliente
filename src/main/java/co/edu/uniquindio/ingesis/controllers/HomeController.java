@@ -34,6 +34,8 @@ import java.util.*;
 public class HomeController {
 
     private final AgenciaCliente agenciaCliente = AgenciaCliente.getInstance();
+    @FXML
+    public Button paquetesClienteBtn, guiasClienteBtn;
 
     private double xOffset = 0;
     private double yOffset = 0;
@@ -181,7 +183,32 @@ public class HomeController {
     ObservableList<String> dE = FXCollections.observableArrayList();
     @FXML
     ObservableList<TouristPackage>  tP = FXCollections.observableArrayList();
+
+    //----------------------Sesion actual----------------------
     String  clientID, passwordID,fullName, mail, phoneNumber, residence;
+
+    //----------------------Nuestros guias----------------------
+
+    //Guia 1
+    @FXML
+    public ImageView fotoMejorGuia1;
+    @FXML
+    public Label calificacionMejorGuia1Label, nombreMejorGuia1Label, idiomasMejorGuia1Label;
+
+    //Guia 2
+    @FXML
+    public ImageView fotoMejorGuia2;
+    @FXML
+    public Label calificacionMejorGuia2Label, nombreMejorGuia2Label, idiomasMejorGuia2Label;
+
+    //Guia 3
+    @FXML
+    public ImageView fotoMejorGuia3;
+    @FXML
+    public Label calificacionMejorGuia3Label, nombreMejorGuia3Label, idiomasMejorGuia3Label;
+
+
+
 
     public void initialize() {
 
@@ -292,6 +319,47 @@ public class HomeController {
             }
         });
 
+
+        //----------------------Nuestro guias----------------------
+
+        agenciaCliente.getTouristGuides().sort(Comparator.comparingDouble(TouristGuide::getRating).reversed());
+
+        // Obtiene los tres primeros guías después de ordenar
+        TouristGuide guiaMejorCalificacion1 = agenciaCliente.getTouristGuides().size() > 0 ? agenciaCliente.getTouristGuides().get(0) : null;
+        TouristGuide guiaMejorCalificacion2 = agenciaCliente.getTouristGuides().size() > 1 ? agenciaCliente.getTouristGuides().get(1) : null;
+        TouristGuide guiaMejorCalificacion3 = agenciaCliente.getTouristGuides().size() > 2 ? agenciaCliente.getTouristGuides().get(2) : null;
+
+        if (guiaMejorCalificacion1 != null){
+
+            String [] firstName = guiaMejorCalificacion1.getFullName().split(" ");
+
+            fotoMejorGuia1.setImage(cargarImagen(guiaMejorCalificacion1.getRutaFoto()));
+            calificacionMejorGuia1Label.setText("Calificación : " + guiaMejorCalificacion1.getRating());
+            nombreMejorGuia1Label.setText("Nombre : " + firstName[0]);
+            idiomasMejorGuia1Label.setText("Idiomas : " + guiaMejorCalificacion1.getLanguages().toString());
+        }
+
+        if (guiaMejorCalificacion2 != null){
+
+            String [] firstName = guiaMejorCalificacion2.getFullName().split(" ");
+
+            fotoMejorGuia2.setImage(cargarImagen(guiaMejorCalificacion2.getRutaFoto()));
+            calificacionMejorGuia2Label.setText("Calificación : " + guiaMejorCalificacion2.getRating());
+            nombreMejorGuia2Label.setText("Nombre : " + firstName[0]);
+            idiomasMejorGuia2Label.setText("Idiomas : " + guiaMejorCalificacion2.getLanguages().toString());
+        }
+
+        if (guiaMejorCalificacion3 != null){
+
+            String [] firstName = guiaMejorCalificacion3.getFullName().split(" ");
+
+            fotoMejorGuia3.setImage(cargarImagen(guiaMejorCalificacion3.getRutaFoto()));
+            calificacionMejorGuia3Label.setText("Calificación : " + guiaMejorCalificacion3.getRating());
+            nombreMejorGuia3Label.setText("Nombre : " + firstName[0]);
+            idiomasMejorGuia3Label.setText("Idiomas : " + guiaMejorCalificacion3.getLanguages().toString());
+        }
+
+
     }
 
     public void calificarServicioGuia(){
@@ -323,9 +391,8 @@ public class HomeController {
                         confirmarCalificacionGuiaButton.setOnAction(actionEvent -> {
 
                             agenciaCliente.calificarGuia(reservation.getTouristGuide(), groupCalificacionGuia.getSelectedToggle().toString());
-
                             hboxCliente.setVisible(true);
-                                visibilitiesClient(true, false, false, false, false);
+                            visibilitiesClient(true, false, false, false, false);
                         });
 
                     }
@@ -654,6 +721,9 @@ public class HomeController {
         reservarPane.setVisible(pane3);
         calificarDestinosPane.setVisible(pane4);
         calificarGuiaPane.setVisible(pane5);
+        nuestrosPaquetesPane.setVisible(false);
+        nuestrosGuiasPane.setVisible(false);
+        iniciarsesionPane.setVisible(false);
     }
 
     public void visibilitiesRegister(boolean pan1, boolean pan2){
@@ -691,6 +761,12 @@ public class HomeController {
             visibilitiesClient(true, false, false, false, false);
 
             optionalClient.ifPresent(this::sesionIniciada);
+
+            if (optionalClient.isPresent()){
+                if (!agenciaCliente.alertarPorDescuentoEnReservas(optionalClient.get()).isEmpty()){
+                    createAlertInfo("!Cliente¡", "Información", agenciaCliente.alertarPorDescuentoEnReservas(optionalClient.get()));
+                }
+            }
 
             cargarDatos();
             calificarDestinos();
@@ -774,6 +850,8 @@ public class HomeController {
         passwordFldRegistro.clear();
     }
     public void onRegisterButtonClck() {visibilitiesRegister(false,true);}
+    
+    
 
     public void onLogOutButtonClick() throws IOException {
 
@@ -796,7 +874,7 @@ public class HomeController {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle(titleError);
         alert.setContentText(contentError);
-        alert.show();
+        alert.showAndWait();
     }
 
     public void createAlertInfo(String titleError, String headerError, String contentError){
@@ -804,7 +882,7 @@ public class HomeController {
         alert.setTitle(titleError);
         alert.setHeaderText(headerError);
         alert.setContentText(contentError);
-        alert.show();
+        alert.showAndWait();
     }
 
     public void generateWindow(String path, ImageView close) throws IOException {
@@ -823,5 +901,15 @@ public class HomeController {
 
         Stage stage1 = (Stage) close.getScene().getWindow();
         stage1.close();
+    }
+
+    public void onPaquetesClienteClick() {
+        visibilitiesClient(false, false, false, false, false);
+        nuestrosPaquetesPane.setVisible(true);
+    }
+
+    public void onGuiasClienteClick() {
+        visibilitiesClient(false, false, false, false, false);
+        nuestrosGuiasPane.setVisible(true);
     }
 }

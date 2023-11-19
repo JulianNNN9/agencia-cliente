@@ -198,7 +198,8 @@
         <TextField fx:id="txtFldExperience" layoutX="172.0" layoutY="216.0" />
         <Label layoutX="365.0" layoutY="113.0" prefHeight="17.0" prefWidth="98.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Calificación :" />
         <TextField fx:id="txtFldRating" layoutX="450.0" layoutY="109.0" prefHeight="25.0" prefWidth="149.0" />
-
+        <Label layoutX="365.0" layoutY="166.0" prefHeight="17.0" prefWidth="89.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Ruta foto:" />
+        <TextField fx:id="txtFldRutaFoto" layoutX="450.0" layoutY="162.0" />
 
       <TableView fx:id="guidesLenguajeTable" layoutX="680.0" layoutY="331.0" prefHeight="236.0" prefWidth="238.0">
         <columns>
@@ -210,9 +211,13 @@
       <Button fx:id="deleteLenguajeButton" layoutX="814.0" layoutY="283.0" mnemonicParsing="false" onAction="#elimiarLenguajeGuia" style="-fx-border-radius: 35; -fx-background-radius: 35; -fx-border-color: #000000; -fx-background-color: #d99b5e; -fx-font-family: 'Segoe UI Semibold'" text="Borrar" />
       <Button fx:id="limpiarCamposGuides" layoutX="531.0" layoutY="283.0" mnemonicParsing="false" onAction="#onLimpiarCamposGuiasClick" style="-fx-border-radius: 35; -fx-background-radius: 35; -fx-border-color: #000000; -fx-background-color: #d99b5e; -fx-font-family: 'Segoe UI Semibold'" text="Limpiar campos" />
 
-      <TextField fx:id="txtFldLenguaje" layoutX="782.0" layoutY="216.0" />
-      <Label layoutX="680.0" layoutY="220.0" prefHeight="17.0" prefWidth="89.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Idioma :" />
+      <TextField fx:id="txtFldLenguaje" layoutX="778.0" layoutY="237.0" />
+      <Label layoutX="689.0" layoutY="241.0" prefHeight="17.0" prefWidth="89.0" style="-fx-text-fill: white; -fx-font-family: 'Segoe UI Semibold'" text="Idioma :" />
 
+        <Button fx:id="examinarRutaFotoButton" layoutX="610.0" layoutY="161.0" mnemonicParsing="false" onAction="#seleccionarImagenGuia" style="-fx-border-radius: 35; -fx-background-radius: 35; -fx-border-color: #000000; -fx-background-color: #d99b5e; -fx-font-family: 'Segoe UI Semibold'" text="Seleccionar foto">
+            <cursor>
+                <Cursor fx:constant="HAND" />
+            </cursor></Button>
     </Pane>
 
     <Pane fx:id="statisticsPane" prefHeight="615.0" prefWidth="950.0" style="-fx-background-radius: 15; -fx-border-radius: 15; -fx-background-color: #989898" visible="false">

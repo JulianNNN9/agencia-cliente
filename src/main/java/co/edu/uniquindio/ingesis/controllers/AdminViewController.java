@@ -122,7 +122,7 @@ public class AdminViewController {
     @FXML
     public Button limpiarCamposGuides, addButtonGuides, modifyButtonGuides, deleteButtonGuide, addLenguajeButton, deleteLenguajeButton;
     @FXML
-    public TextField txtFldGuideId, txtFldFullNameGuide, txtFldExperience, txtFldRating, txtFldLenguaje;
+    public TextField txtFldGuideId, txtFldFullNameGuide, txtFldExperience, txtFldRating, txtFldLenguaje, txtFldRutaFoto;
 
     //Ventana estadísticas
 
@@ -341,6 +341,7 @@ public class AdminViewController {
             addLenguajeButton.setDisable(!seleccionado);
             deleteLenguajeButton.setDisable(!seleccionado);
             txtFldLenguaje.setDisable(!seleccionado);
+            txtFldRutaFoto.setDisable(!seleccionado);
             modifyButtonGuides.setDisable(!seleccionado);
 
             if (seleccionado) {
@@ -677,7 +678,7 @@ public class AdminViewController {
                     .filter(destino -> destino.getName().equals(destinoName))
                     .findFirst();
 
-            agenciaCliente.eliminarRuta(destinoSeleccionadoOpcional, selectedRuta);
+            destinoSeleccionadoOpcional.ifPresent(destino -> agenciaCliente.eliminarRuta(destinoSeleccionadoOpcional.get(), selectedRuta));
 
         }
 
@@ -889,7 +890,9 @@ public class AdminViewController {
                     .filter(touristPackage -> touristPackage.getName().equals(packageName))
                     .findFirst();
 
-            agenciaCliente.eliminarDestinoName(packageSeleccionadoOpcional, selectedDestino);
+            if (packageSeleccionadoOpcional.isPresent()){
+                agenciaCliente.eliminarDestinoName(packageSeleccionadoOpcional.get(), selectedDestino);
+            }
 
         }
 
@@ -916,6 +919,7 @@ public class AdminViewController {
         addLenguajeButton.setDisable(true);
         deleteLenguajeButton.setDisable(true);
         txtFldLenguaje.setDisable(true);
+        txtFldRutaFoto.setDisable(true);
     }
 
     @FXML
@@ -936,6 +940,7 @@ public class AdminViewController {
                 .languages(new ArrayList<>())
                 .experience(txtFldExperience.getText())
                 .rating(Double.valueOf(txtFldRating.getText()))
+                .rutaFoto(txtFldRutaFoto.getText())
                 .build();
 
         if (touristGuideObservableList.stream().anyMatch(touristGuide -> touristGuide.getId().equals(nuevoGuia.getId()))){
@@ -968,18 +973,20 @@ public class AdminViewController {
             if (txtFldGuideId.getText() == null || txtFldGuideId.getText().isEmpty() ||
                     txtFldFullNameGuide.getText() == null || txtFldFullNameGuide.getText().isEmpty() ||
                     txtFldExperience.getText() == null || txtFldExperience.getText().isEmpty() ||
-                    txtFldRating.getText() == null){
+                    txtFldRating.getText() == null ||
+                    txtFldRutaFoto.getText() == null || txtFldRutaFoto.getText().isEmpty()){
 
                 createAlertError("Error", "Se ha intentado agregar un guia con campos vacios.");
                 throw new AtributoVacioException("Se ha intentado agregar un guia con campos vacios.");
             }
 
-            agenciaCliente.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText());
+            agenciaCliente.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText(), txtFldRutaFoto.getText());
 
             selectedGuia.setId(txtFldGuideId.getText());
             selectedGuia.setFullName(txtFldFullNameGuide.getText());
             selectedGuia.setExperience(txtFldExperience.getText());
             selectedGuia.setRating(Double.valueOf(txtFldRating.getText()));
+            selectedGuia.setRutaFoto(txtFldRutaFoto.getText());
 
             limpiarCamposGuias();
 
@@ -1078,7 +1085,7 @@ public class AdminViewController {
                     .filter(touristGuide -> touristGuide.getId().equals(guideID))
                     .findFirst();
 
-            agenciaCliente.eliminarLenguaje(guideSeleccionadoOpcional, selectedLenguaje);
+            guideSeleccionadoOpcional.ifPresent(touristGuide -> agenciaCliente.eliminarLenguaje(guideSeleccionadoOpcional.get(), selectedLenguaje));
 
         }
 
@@ -1086,11 +1093,27 @@ public class AdminViewController {
 
     }
 
+    @FXML
+    public void seleccionarImagenGuia() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.getExtensionFilters().addAll(
+                new FileChooser.ExtensionFilter("Imágenes", "*.jpg", "*.jpeg", "*.png", "*.gif", "*.bmp")
+        );
+
+        File imagenSeleccionada = fileChooser.showOpenDialog(getStage());
+
+        if (imagenSeleccionada != null) {
+            String rutaImagen = imagenSeleccionada.getAbsolutePath();
+            txtFldRutaFoto.setText(rutaImagen);
+        }
+    }
+
     private void limpiarCamposGuias() {
         txtFldGuideId.clear();
         txtFldFullNameGuide.clear();
         txtFldExperience.clear();
         txtFldRating.clear();
+        txtFldRutaFoto.clear();
         guidesLenguajeTable.getItems().clear();
     }
 

@@ -104,6 +104,35 @@ public class AgenciaCliente {
 
     }
 
+    public String alertarPorDescuentoEnReservas(Client client){
+
+        try (Socket socket = new Socket(HOST, PUERTO)){
+
+            //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
+            ObjectOutputStream out = new ObjectOutputStream(socket.getOutputStream());
+            ObjectInputStream in = new ObjectInputStream(socket.getInputStream());
+
+            //Se envía un mensaje al servidor con los datos de la petición
+            out.writeObject( Mensaje.builder()
+                    .contenido(client)
+                    .tipo("recompensasPorReservas").build() );
+
+            //Obtenemos la respuesta del servidor
+            String respuesta = in.readObject().toString();
+
+            //Se cierran los flujos de entrada y de salida para liberar los recursos
+            in.close();
+            out.close();
+
+            return respuesta;
+
+        }catch (Exception e){
+            log.severe(e.getMessage());
+            throw new RuntimeException(e);
+        }
+
+    }
+
     public List<Reservation> getReservations() {
 
         try (Socket socket = new Socket(HOST, PUERTO)){
@@ -334,7 +363,7 @@ public class AgenciaCliente {
         }
     }
 
-    public String eliminarRuta(Optional<Destino> destinoSeleccionadoOpcional, String selectedRuta) {
+    public String eliminarRuta(Destino destinoSeleccionadoOpcional, String selectedRuta) {
         try (Socket socket = new Socket(HOST, PUERTO)){
 
             //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
@@ -488,7 +517,7 @@ public class AgenciaCliente {
         }
     }
 
-    public String eliminarDestinoName(Optional<TouristPackage> packageSeleccionadoOpcional, String selectedDestino) {
+    public String eliminarDestinoName(TouristPackage packageSeleccionadoOpcional, String selectedDestino) {
         try (Socket socket = new Socket(HOST, PUERTO)){
 
             //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
@@ -547,7 +576,7 @@ public class AgenciaCliente {
         }
     }
 
-    public String modificarGuia(TouristGuide selectedGuia, String guideID, String fullNameGuide, String experience, String rating) {
+    public String modificarGuia(TouristGuide selectedGuia, String guideID, String fullNameGuide, String experience, String rating, String rutaFoto) {
         try (Socket socket = new Socket(HOST, PUERTO)){
 
             //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
@@ -560,6 +589,7 @@ public class AgenciaCliente {
                     .fullNameGuide(fullNameGuide)
                     .experience(experience)
                     .rating(rating)
+                    .rutaFoto(rutaFoto)
                     .build();
 
             //Se envía un mensaje al servidor con los datos de la petición
@@ -641,7 +671,7 @@ public class AgenciaCliente {
         }
     }
 
-    public String eliminarLenguaje(Optional<TouristGuide> guideSeleccionadoOpcional, String selectedLenguaje) {
+    public String eliminarLenguaje(TouristGuide guideSeleccionadoOpcional, String selectedLenguaje) {
         try (Socket socket = new Socket(HOST, PUERTO)){
 
             //Se crean flujos de datos de entrada y salida para comunicarse a través del socket
