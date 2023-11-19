@@ -372,6 +372,7 @@ public class AdminViewController {
                 txtFldFullNameGuide.setText(String.valueOf(newSelection.getFullName()));
                 txtFldExperience.setText(newSelection.getExperience());
                 txtFldRating.setText(String.valueOf(newSelection.getRating()));
+                txtFldRutaFoto.setText(newSelection.getRutaFoto());
             }
         });
 
