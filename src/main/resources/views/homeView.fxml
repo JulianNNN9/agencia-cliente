@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.*?>
 <?import javafx.scene.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.text.*?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="681.0" prefWidth="950.0" style="-fx-background-radius: 15; -fx-background-color: transparent;" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="co.edu.uniquindio.ingesis.controllers.HomeController">
@@ -170,24 +172,54 @@
         </Label>
       <Pane layoutX="73.0" layoutY="112.0" prefHeight="391.0" prefWidth="245.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
          <children>
-            <ImageView fx:id="fotoMejorGuia1" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 50; -fx-background-radius: 50" />
-            <Label fx:id="calificacionMejorGuia1Label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guía" textAlignment="CENTER" />
-            <Label fx:id="nombreMejorGuia1Label" alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
-            <Label fx:id="idiomasMejorGuia1Label" alignment="CENTER" layoutX="10.0" layoutY="300.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+             <ImageView fx:id="fotoMejorGuia1" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                 <clip>
+                     <Circle centerX="75" centerY="75" radius="65" />
+                 </clip>
+                 <layoutX>
+                     <Double fx:value="0.5" />
+                 </layoutX>
+                 <layoutY>
+                     <Double fx:value="0.5" />
+                 </layoutY>
+             </ImageView>
+            <Label fx:id="calificacionMejorGuia1Label" alignment="CENTER" contentDisplay="CENTER" layoutX="10.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" text="Problemas al cargar el guía" textAlignment="CENTER" />
+            <Label fx:id="nombreMejorGuia1Label" alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15"/>
+            <Label fx:id="idiomasMejorGuia1Label" alignment="CENTER" layoutX="10.0" layoutY="300.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15"/>
          </children></Pane>
         <Pane layoutX="353.0" layoutY="170.0" prefHeight="391.0" prefWidth="245.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
          <children>
-            <ImageView fx:id="fotoMejorGuia2" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 50; -fx-background-radius: 50" />
-             <Label fx:id="calificacionMejorGuia2Label" alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guia" textAlignment="CENTER" />
-             <Label fx:id="nombreMejorGuia2Label" alignment="CENTER" layoutX="11.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
-             <Label fx:id="idiomasMejorGuia2Label" alignment="CENTER" layoutX="11.0" layoutY="300.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+             <ImageView fx:id="fotoMejorGuia2" fitHeight="150.0" fitWidth="150.0" layoutX="50.0" layoutY="27.0" pickOnBounds="true" preserveRatio="true">
+                 <clip>
+                     <Circle centerX="75" centerY="75" radius="65" />
+                 </clip>
+                 <layoutX>
+                     <Double fx:value="0.5" />
+                 </layoutX>
+                 <layoutY>
+                     <Double fx:value="0.5" />
+                 </layoutY>
+             </ImageView>
+             <Label fx:id="calificacionMejorGuia2Label" alignment="CENTER" contentDisplay="CENTER" layoutX="11.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" text="Problemas al cargar el guia" textAlignment="CENTER" />
+             <Label fx:id="nombreMejorGuia2Label" alignment="CENTER" layoutX="11.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" textAlignment="CENTER" />
+             <Label fx:id="idiomasMejorGuia2Label" alignment="CENTER" layoutX="11.0" layoutY="300.0" prefHeight="17.0" prefWidth="227.0" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" textAlignment="CENTER" />
          </children></Pane>
         <Pane layoutX="633.0" layoutY="112.0" prefHeight="391.0" prefWidth="245.0" style="-fx-background-color: linear-gradient(to bottom, #d99b5e, #888282); -fx-background-radius: 15">
          <children>
-            <ImageView fx:id="fotoMejorGuia3" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true" style="-fx-border-radius: 50; -fx-background-radius: 50" />
-             <Label fx:id="calificacionMejorGuia3Label" alignment="CENTER" layoutX="9.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guía" textAlignment="CENTER" />
-             <Label fx:id="nombreMejorGuia3Label" alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
-             <Label fx:id="idiomasMejorGuia3Label" alignment="CENTER" layoutX="9.0" layoutY="299.0" prefHeight="17.0" prefWidth="227.0" textAlignment="CENTER" />
+             <ImageView fx:id="fotoMejorGuia3" fitHeight="150.0" fitWidth="150.0" layoutX="48.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+                 <clip>
+                 <Circle centerX="75" centerY="75" radius="65" />
+                 </clip>
+                 <layoutX>
+                    <Double fx:value="0.5" />
+                 </layoutX>
+                 <layoutY>
+                     <Double fx:value="0.5" />
+                 </layoutY>
+             </ImageView>
+             <Label fx:id="calificacionMejorGuia3Label" alignment="CENTER" layoutX="9.0" layoutY="200.0" prefHeight="17.0" prefWidth="227.0" text="Problemas al cargar el guía" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" textAlignment="CENTER" />
+             <Label fx:id="nombreMejorGuia3Label" alignment="CENTER" layoutX="10.0" layoutY="250.0" prefHeight="17.0" prefWidth="227.0" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" textAlignment="CENTER" />
+             <Label fx:id="idiomasMejorGuia3Label" alignment="CENTER" layoutX="9.0" layoutY="299.0" prefHeight="17.0" prefWidth="227.0" style="-fx-font-family: 'Segoe UI Semibold'; -fx-font-size: 15" textAlignment="CENTER" />
          </children></Pane>
     </AnchorPane>
 

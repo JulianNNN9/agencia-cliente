@@ -172,13 +172,11 @@ public class HomeController {
     @FXML
     private AnchorPane iniciarsesionPane;
     @FXML
-    private TextArea infoTA;
-    @FXML
     private HBox hboxPanePrincipal;
     @FXML
     private TableView<String> tblDe;
     @FXML
-    private TableColumn<String,String>  colDeNombre, colDeCiudad, colDeDescription, colDeClima;
+    private TableColumn<String,String>  colDeNombre;
     @FXML
     ObservableList<String> dE = FXCollections.observableArrayList();
     @FXML
@@ -390,7 +388,8 @@ public class HomeController {
 
                         confirmarCalificacionGuiaButton.setOnAction(actionEvent -> {
 
-                            agenciaCliente.calificarGuia(reservation.getTouristGuide(), groupCalificacionGuia.getSelectedToggle().toString());
+                            String mensaje = agenciaCliente.calificarGuia(reservation.getTouristGuide(), groupCalificacionGuia.getSelectedToggle().toString());
+                            createAlertInfo("Calificación", "Información", mensaje);
                             hboxCliente.setVisible(true);
                             visibilitiesClient(true, false, false, false, false);
                         });
@@ -427,8 +426,8 @@ public class HomeController {
                             cargaImagenDestinoCalificar.setImage(new Image(optionalDestino.get().getImagesHTTPS().get(0)));
 
                             optionalDestino.ifPresent(destino -> calificarDestinoButton.setOnAction(actionEvent -> {
-                                agenciaCliente.calificarDestino(destino, txtAreaComentario.getText(), groupCalificacionDestino.getSelectedToggle().toString());
-
+                                String mensaje = agenciaCliente.calificarDestino(destino, txtAreaComentario.getText(), groupCalificacionDestino.getSelectedToggle().toString());
+                                createAlertInfo("Calificación", "Información", mensaje);
                                 groupCalificacionDestino.getSelectedToggle().setSelected(false);
                                 txtAreaComentario.clear();
                             }));
@@ -493,7 +492,8 @@ public class HomeController {
                         confirmarReservaButton.setVisible(false);
 
                         cancelarReservaButton.setOnAction(event -> {
-                            agenciaCliente.cancelarReserva(newSelection);
+                            String mensaje = agenciaCliente.cancelarReserva(newSelection);
+                            createAlertInfo("Cancelación", "Info", mensaje);
                             cancelarReservaButton.setVisible(false);
                             historialReservacionesTable.refresh();
                         });
@@ -504,13 +504,15 @@ public class HomeController {
                         confirmarReservaButton.setVisible(true);
 
                         cancelarReservaButton.setOnAction(event -> {
-                            agenciaCliente.cancelarReserva(newSelection);
+                            String mensaje = agenciaCliente.cancelarReserva(newSelection);
+                            createAlertInfo("Cancelación", "Info", mensaje);
                             cancelarReservaButton.setVisible(false);
                             historialReservacionesTable.refresh();
                         });
 
                         confirmarReservaButton.setOnAction(actionEvent -> {
-                            agenciaCliente.confirmarReserva(newSelection);
+                            String mensaje = agenciaCliente.confirmarReserva(newSelection);
+                            createAlertInfo("Confirmación", "Info", mensaje);
                             confirmarReservaButton.setVisible(false);
                             historialReservacionesTable.refresh();
                         });
@@ -656,7 +658,9 @@ public class HomeController {
 
     public void onConfirmarEdicionClick() {
 
-        agenciaCliente.modificarPerfil(clientID, txtFldNombre.getText(), txtFldMail.getText(), txtFldNumero.getText(), txtFldResidencia.getText());
+        String mensaje = agenciaCliente.modificarPerfil(clientID, txtFldNombre.getText(), txtFldMail.getText(), txtFldNumero.getText(), txtFldResidencia.getText());
+
+        createAlertInfo("Modificación", "Información", mensaje);
 
         txtFldNombre.setEditable(false);
         txtFldMail.setEditable(false);
@@ -679,13 +683,13 @@ public class HomeController {
                 telefonoTF.getText() == null || telefonoTF.getText().isBlank() ||
                 residenciaTF.getText() == null || residenciaTF.getText().isBlank()){
 
-            createAlertError("Error", "Se ha hecho un intento de registro de cliente con campos vacios.");
+            createAlertError("Error", "Debes llenar todos los campos para poder registrarse.");
             throw new AtributoVacioException("Se ha hecho un intento de registro de cliente con campos vacios.");
         }
 
         String mensaje = agenciaCliente.registrarCliente(idTF.getText(),passwordFldRegistro.getText(),nombreTF.getText(),mailTF.getText(),telefonoTF.getText(),residenciaTF.getText());
 
-        createAlertInfo("Registro cliente", "Información", mensaje);
+        createAlertInfo("Registro éxitoso", "Información", mensaje);
 
         visibilitiesRegister(true, false);
 
@@ -741,7 +745,7 @@ public class HomeController {
         if (txtFldID.getText() == null || txtFldID.getText().isBlank() ||
                 passwordFldInicioSesion.getText() == null || passwordFldInicioSesion.getText().isBlank()){
 
-            createAlertError("Error", "Se ha hecho un intento de inicio de sesion con campos vacios.");
+            createAlertError("Error", "Hay algunos campos vacíos.");
             throw new AtributoVacioException("Se ha hecho un intento de inicio de sesion con campos vacios.");
         }
 
