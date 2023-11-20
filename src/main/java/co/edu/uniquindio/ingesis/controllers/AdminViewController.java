@@ -519,13 +519,15 @@ public class AdminViewController {
                 .build();
 
         if (destinoObservableList.stream().anyMatch(destination -> destination.getName().equals(nuevoDestino.getName()))){
-            createAlertError("Error", "Se ha intentado crear un Destino existente.");
-            throw new RepeatedInformationException("Se ha intentado crear un Destino existente.");
+            createAlertError("Error", "Se ha intentado agregar un Destino existente.");
+            throw new RepeatedInformationException("Se ha intentado agregar un Destino existente.");
         }
 
         destinoObservableList.add(nuevoDestino);
 
-        agenciaCliente.agregarDestino(nuevoDestino);
+        String mensaje = agenciaCliente.agregarDestino(nuevoDestino);
+
+        createAlertInfo("Agregación", "Info", mensaje);
 
         limpiarCamposDestinations();
 
@@ -551,11 +553,13 @@ public class AdminViewController {
                     txtFldDescription.getText().isEmpty() ||
                     choiceBoxClima.getValue().isEmpty()) {
 
-                createAlertError("Error", "Se ha intentado agregar un destino con campos vacios.");
-                throw new AtributoVacioException("Se ha intentado agregar un destino con campos vacios.");
+                createAlertError("Error", "Se ha intentado modificar un destino con campos vacios.");
+                throw new AtributoVacioException("Se ha intentado modificar un destino con campos vacios.");
             }
 
-            agenciaCliente.modificarDestino(selectedDestino, txtFldName.getText(), txtFldCity.getText(), txtFldDescription.getText(), choiceBoxClima.getValue());
+            String mensaje = agenciaCliente.modificarDestino(selectedDestino, txtFldName.getText(), txtFldCity.getText(), txtFldDescription.getText(), choiceBoxClima.getValue());
+
+            createAlertInfo("Modificación", "Información", mensaje);
 
             selectedDestino.setName(txtFldName.getText());
             selectedDestino.setCity(txtFldCity.getText());
@@ -584,7 +588,9 @@ public class AdminViewController {
 
             Destino selectedDestino = destinationsTable.getSelectionModel().getSelectedItem();
 
-            agenciaCliente.eliminarDestino(selectedDestino);
+            String mensaje = agenciaCliente.eliminarDestino(selectedDestino);
+
+            createAlertInfo("Eliminación", "Info", mensaje);
 
             destinoObservableList.remove(selectedDestino);
 
@@ -625,8 +631,8 @@ public class AdminViewController {
     public void agregarRutaImagenDestinations() throws RepeatedInformationException, EmptyAttributeException {
 
         if (txtFldRuta.getText() == null || txtFldRuta.getText().isEmpty()){
-            createAlertError("Error", "Atributos vacios");
-            throw new EmptyAttributeException("Atributos vacíos.");
+            createAlertError("Error", "Por favor agregue una ruta.");
+            throw new EmptyAttributeException("Por favor agregue una ruta.");
         }
 
         String destinoName = txtFldName.getText();
@@ -638,8 +644,8 @@ public class AdminViewController {
         if (destinoSeleccionadoOpcional.isPresent()) {
 
             if (observableListRutas.stream().anyMatch(string -> string.equals(txtFldRuta.getText()))){
-                createAlertError("Error", "Se ha intentado añadir una ruta existente.");
-                throw new RepeatedInformationException("Se ha intentado añadir una ruta existente.");
+                createAlertError("Error", "Se ha intentado agregar una ruta existente.");
+                throw new RepeatedInformationException("Se ha intentado agregar una ruta existente.");
             }
 
             observableListRutas.add(txtFldRuta.getText());
@@ -656,7 +662,9 @@ public class AdminViewController {
                     .build();
 
             observableListRutas.add(txtFldRuta.getText());
-            agenciaCliente.agregarImagenDestino(txtFldRuta.getText(), nuevoDestino);
+            String mensaje = agenciaCliente.agregarImagenDestino(txtFldRuta.getText(), nuevoDestino);
+
+            createAlertInfo("Agregación", "Info", mensaje);
 
             agenciaCliente.agregarDestino(nuevoDestino);
         }
@@ -678,7 +686,10 @@ public class AdminViewController {
                     .filter(destino -> destino.getName().equals(destinoName))
                     .findFirst();
 
-            destinoSeleccionadoOpcional.ifPresent(destino -> agenciaCliente.eliminarRuta(destinoSeleccionadoOpcional.get(), selectedRuta));
+            if (destinoSeleccionadoOpcional.isPresent()){
+                String mensaje = agenciaCliente.eliminarRuta(destinoSeleccionadoOpcional.get(), selectedRuta);
+                createAlertInfo("Eliminación", "Info", mensaje);
+            }
 
         }
 
@@ -714,23 +725,18 @@ public class AdminViewController {
             duration = datePckrStartDate.getValue().until(datePckrEndDate.getValue(), ChronoUnit.DAYS);
         }
 
-        if (txtFldPrice.getText().isEmpty() || txtFldPrice.getText() == null || txtFldQuota.getText().isEmpty() || txtFldQuota.getText() == null){
-            createAlertError("Error", "Atributos vacios");
-            throw new EmptyAttributeException("Atributos vacíos.");
-        }
-
         if ( txtFldPackageName.getText() == null || txtFldPackageName.getText().isEmpty() ||
                 txtFldPrice.getText() == null || txtFldPrice.getText().isEmpty() ||
                 txtFldQuota.getText() == null || txtFldQuota.getText().isEmpty() ||
                 datePckrStartDate.getValue() == null ||
                 datePckrEndDate.getValue() == null){
 
-            createAlertError("Error", "Atributos vacios");
-            throw new EmptyAttributeException("Atributos vacíos.");
+            createAlertError("Error", "Todos los campos son obligatorios.");
+            throw new EmptyAttributeException("Todos los campos son obligatorios.");
         }
 
         if (LocalDate.now().isAfter(datePckrEndDate.getValue())){
-            createAlertError("Error", "Las fechas fueron incorrectamente colocadas.");
+            createAlertError("Error", "Las fecha de fin no puede ser antes de hoy.");
             throw new ErrorEnIngresoFechasException("Las fechas fueron incorrectamente colocadas.");
         }
 
@@ -744,12 +750,14 @@ public class AdminViewController {
                 .build();
 
         if (packageObservableList.stream().anyMatch(touristPackage -> touristPackage.getName().equals(nuevoPaquete.getName()))){
-            createAlertError("Error", "Se ha intentado crear un paquete existente.");
-            throw new RepeatedInformationException("Se ha intentado crear un paquete existente.");
+            createAlertError("Error", "Se ha intentado agregar un paquete existente.");
+            throw new RepeatedInformationException("Se ha intentado agregar un paquete existente.");
         }
 
         packageObservableList.add(nuevoPaquete);
-        agenciaCliente.agregarPaquete(nuevoPaquete);
+        String mensaje = agenciaCliente.agregarPaquete(nuevoPaquete);
+
+        createAlertInfo("Agregación", "Info", mensaje);
 
         limpiarCamposPackages();
 
@@ -775,11 +783,13 @@ public class AdminViewController {
                     datePckrStartDate.getValue() == null ||
                     datePckrEndDate.getValue() == null){
 
-                createAlertError("Error", "Se ha intentado agregar un destino con campos vacios.");
-                throw new AtributoVacioException("Se ha intentado agregar un destino con campos vacios.");
+                createAlertError("Error", "Se ha intentado modificar un destino con campos vacios.");
+                throw new AtributoVacioException("Se ha intentado modificar un destino con campos vacios.");
             }
 
-            agenciaCliente.modificarPaquete(selectedPackage, txtFldPackageName.getText(), Double.parseDouble(txtFldPrice.getText()), Integer.parseInt(txtFldQuota.getText()), datePckrStartDate.getValue(), datePckrEndDate.getValue());
+            String mensaje = agenciaCliente.modificarPaquete(selectedPackage, txtFldPackageName.getText(), Double.parseDouble(txtFldPrice.getText()), Integer.parseInt(txtFldQuota.getText()), datePckrStartDate.getValue(), datePckrEndDate.getValue());
+
+            createAlertInfo("Modificación", "Info", mensaje);
 
             selectedPackage.setName(txtFldPackageName.getText());
             selectedPackage.setPrice(Double.parseDouble(txtFldPrice.getText()));
@@ -810,7 +820,10 @@ public class AdminViewController {
         if (packagesTable.getSelectionModel().getSelectedIndex() >= 0) {
             TouristPackage selectedPackage = packagesTable.getSelectionModel().getSelectedItem();
 
-            agenciaCliente.eliminarPaquete( selectedPackage);
+            String mensaje = agenciaCliente.eliminarPaquete( selectedPackage);
+
+            createAlertInfo("Eliminación", "Info", mensaje);
+
             packageObservableList.remove(selectedPackage);
 
             limpiarCamposPackages();
@@ -843,7 +856,9 @@ public class AdminViewController {
 
             observableListDestinationName.add(choiceBoxDestinationName.getSelectionModel().getSelectedItem());
 
-            agenciaCliente.agregarDestinoEnPaquete(choiceBoxDestinationName.getSelectionModel().getSelectedItem(), paqueteSeleccionadoOpcional.get());
+            String mensaje = agenciaCliente.agregarDestinoEnPaquete(choiceBoxDestinationName.getSelectionModel().getSelectedItem(), paqueteSeleccionadoOpcional.get());
+
+            createAlertInfo("Agregación", "Info", mensaje);
 
         } else {
 
@@ -869,7 +884,9 @@ public class AdminViewController {
 
             observableListDestinationName.add(choiceBoxDestinationName.getSelectionModel().getSelectedItem());
 
-            agenciaCliente.agregarDestinoEnPaquete(choiceBoxDestinationName.getSelectionModel().getSelectedItem(), nuevoPaquete);
+            String mensaje = agenciaCliente.agregarDestinoEnPaquete(choiceBoxDestinationName.getSelectionModel().getSelectedItem(), nuevoPaquete);
+
+            createAlertInfo("Agregación", "Info", mensaje);
 
             agenciaCliente.agregarPaquete( nuevoPaquete);
         }
@@ -891,7 +908,8 @@ public class AdminViewController {
                     .findFirst();
 
             if (packageSeleccionadoOpcional.isPresent()){
-                agenciaCliente.eliminarDestinoName(packageSeleccionadoOpcional.get(), selectedDestino);
+                String mensaje = agenciaCliente.eliminarDestinoName(packageSeleccionadoOpcional.get(), selectedDestino);
+                createAlertInfo("Eliminación", "Info", mensaje);
             }
 
         }
@@ -943,13 +961,15 @@ public class AdminViewController {
                 .build();
 
         if (touristGuideObservableList.stream().anyMatch(touristGuide -> touristGuide.getId().equals(nuevoGuia.getId()))){
-            createAlertError("Error", "Se ha intentado registrar un guia existente.");
-            throw new RepeatedInformationException("Se ha intentado registrar un guia existente.");
+            createAlertError("Error", "Se ha intentado agregar un guia existente.");
+            throw new RepeatedInformationException("Se ha intentado agregar un guia existente.");
         }
 
         touristGuideObservableList.add(nuevoGuia);
 
-        agenciaCliente.agregarGuia( nuevoGuia);
+        String mensaje = agenciaCliente.agregarGuia( nuevoGuia);
+
+        createAlertInfo("Agregación", "Info", mensaje);
 
         limpiarCamposGuias();
 
@@ -975,11 +995,13 @@ public class AdminViewController {
                     txtFldRating.getText() == null ||
                     txtFldRutaFoto.getText() == null || txtFldRutaFoto.getText().isEmpty()){
 
-                createAlertError("Error", "Se ha intentado agregar un guia con campos vacios.");
-                throw new AtributoVacioException("Se ha intentado agregar un guia con campos vacios.");
+                createAlertError("Error", "Se ha intentado modificar un guia con campos vacios.");
+                throw new AtributoVacioException("Se ha intentado modificar un guia con campos vacios.");
             }
 
-            agenciaCliente.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText(), txtFldRutaFoto.getText());
+            String mensaje = agenciaCliente.modificarGuia(selectedGuia, txtFldGuideId.getText(), txtFldFullNameGuide.getText(), txtFldExperience.getText(), txtFldRating.getText(), txtFldRutaFoto.getText());
+
+            createAlertInfo("Modificación", "Info", mensaje);
 
             selectedGuia.setId(txtFldGuideId.getText());
             selectedGuia.setFullName(txtFldFullNameGuide.getText());
@@ -1008,7 +1030,10 @@ public class AdminViewController {
 
             TouristGuide selectedGuia = guidesTable.getSelectionModel().getSelectedItem();
 
-            agenciaCliente.eliminarGuia( selectedGuia);
+            String mensaje = agenciaCliente.eliminarGuia( selectedGuia);
+
+            createAlertInfo("Eliminación", "Info", mensaje);
+
             touristGuideObservableList.remove(selectedGuia);
 
             limpiarCamposGuias();
@@ -1039,8 +1064,8 @@ public class AdminViewController {
         if (guiaSeleccionadoOpcional.isPresent()){
 
             if (observableListLenguajes.stream().anyMatch(string -> string.equals(txtFldLenguaje.getText()))){
-                createAlertError("Error", "Se ha intentado agregar un lenaguje existente.");
-                throw new RepeatedInformationException("Se ha intentado agregar un lenaguje existente.");
+                createAlertError("Error", "Se ha intentado agregar un idioma existente.");
+                throw new RepeatedInformationException("Se ha intentado agregar un idioma existente.");
             }
 
             observableListLenguajes.add(txtFldLenguaje.getText());
@@ -1056,13 +1081,15 @@ public class AdminViewController {
                     .build();
 
             if (observableListLenguajes.stream().anyMatch(string -> string.equals(txtFldLenguaje.getText()))){
-                createAlertError("Error", "Se ha intentado agregar un lenaguje existente.");
-                throw new RepeatedInformationException("Se ha intentado agregar un lenaguje existente.");
+                createAlertError("Error", "Se ha intentado agregar un idioma existente.");
+                throw new RepeatedInformationException("Se ha intentado agregar un idioma existente.");
             }
 
             observableListLenguajes.add(txtFldLenguaje.getText());
 
-            agenciaCliente.agregarLeaguajeGuia( txtFldLenguaje.getText(), nuevoGuia);
+            String mensaje = agenciaCliente.agregarLeaguajeGuia( txtFldLenguaje.getText(), nuevoGuia);
+
+            createAlertInfo("Agregación", "Info", mensaje);
 
             agenciaCliente.agregarGuia( nuevoGuia);
         }
@@ -1084,7 +1111,10 @@ public class AdminViewController {
                     .filter(touristGuide -> touristGuide.getId().equals(guideID))
                     .findFirst();
 
-            guideSeleccionadoOpcional.ifPresent(touristGuide -> agenciaCliente.eliminarLenguaje(guideSeleccionadoOpcional.get(), selectedLenguaje));
+            if (guideSeleccionadoOpcional.isPresent()){
+                String mensaje = agenciaCliente.eliminarLenguaje(guideSeleccionadoOpcional.get(), selectedLenguaje);
+                createAlertInfo("Eliminación", "Info", mensaje);
+            }
 
         }
 
@@ -1120,7 +1150,7 @@ public class AdminViewController {
     @FXML
     private void handleButtonAction(ActionEvent event){
 
-        if (event.getTarget() == manageDestinationsButton){visibilities(false,true,false,false,false,false);}
+        if (event.getTarget() == manageDestinationsButton){visibilities(false,true,false,false,false);}
         if (event.getTarget() == managePackagesButton){
 
             List<String> destinationNames = agenciaCliente.getDestinos().stream()
@@ -1131,20 +1161,20 @@ public class AdminViewController {
                 choiceBoxDestinationName.getItems().setAll(destinationNames);
             }
 
-            visibilities(false,false,false,true,false,false);
+            visibilities(false,false,true,false,false);
         }
-        if (event.getTarget() == manageGuidesButton) {visibilities(false,false,false,false,true,false);}
-        if (event.getTarget() == statisticsButton) {visibilities(false,false,false,false,false,true);}
+        if (event.getTarget() == manageGuidesButton) {visibilities(false,false,false,true,false);}
+        if (event.getTarget() == statisticsButton) {visibilities(false,false,false,false,true);}
 
     }
 
-    public void visibilities(boolean pane1, boolean pane2 , boolean pane3, boolean pane4, boolean pane5, boolean pane6 ){
+    public void visibilities(boolean pane1, boolean pane2 , boolean pane3, boolean pane4, boolean pane5){
 
         principalPane.setVisible(pane1);
         manageDestinationsPane.setVisible(pane2);
-        managePackagesPane.setVisible(pane4);
-        manageGuidesPane.setVisible(pane5);
-        statisticsPane.setVisible(pane6);
+        managePackagesPane.setVisible(pane3);
+        manageGuidesPane.setVisible(pane4);
+        statisticsPane.setVisible(pane5);
 
     }
 
@@ -1161,7 +1191,7 @@ public class AdminViewController {
             txtFldRuta.setDisable(true);
             modifyButtonDestination.setDisable(true);
 
-            visibilities(true, false, false, false, false, false);
+            visibilities(true, false, false, false, false);
 
         }
         if (mouseEvent.getTarget() == imgViewBackPackagesButton){
@@ -1174,7 +1204,7 @@ public class AdminViewController {
             choiceBoxDestinationName.setDisable(true);
             modifyButtonPackages.setDisable(true);
 
-            visibilities(true, false,false, false, false, false);
+            visibilities(true, false, false, false, false);
         }
         if (mouseEvent.getTarget() == imgViewBackGuidesButton){
 
@@ -1185,9 +1215,9 @@ public class AdminViewController {
             deleteLenguajeButton.setDisable(true);
             txtFldLenguaje.setDisable(true);
 
-            visibilities(true, false,false, false, false, false);
+            visibilities(true, false, false, false, false);
         }
-        if (mouseEvent.getTarget() == imgViewBackStatisticsButton){visibilities(true, false,false, false, false, false);}
+        if (mouseEvent.getTarget() == imgViewBackStatisticsButton){visibilities(true, false, false, false, false);}
 
     }
 
@@ -1215,5 +1245,13 @@ public class AdminViewController {
         alert.setTitle(titleError);
         alert.setContentText(contentError);
         alert.show();
+    }
+
+    public void createAlertInfo(String titleError, String headerError, String contentError){
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle(titleError);
+        alert.setHeaderText(headerError);
+        alert.setContentText(contentError);
+        alert.showAndWait();
     }
 }

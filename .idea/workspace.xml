@@ -7,9 +7,12 @@
     <list default="true" id="63d5de39-b50b-4a9a-9fff-69d87c2cd862" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/AdminViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/AdminViewController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/T1_Keria_2023_WC.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/T1_Zeus_2023_Split_2.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/HomeController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/AgenciaCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/AgenciaCliente.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/Sin título.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/descarga.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/descarga.png" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/faker.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/faker.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/ventanaDePerfil.png" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -41,26 +44,26 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "Jfunc",
-    "ignore.virus.scanning.warn.message": "true",
-    "last_opened_file_path": "G:/IntelliJ IDEA - workspace/agencia-cliente/src/main/resources/Imagenes Destinos",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.46206897",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Jfunc&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/IntelliJ IDEA - workspace/agencia-cliente/src/main/resources/Imagenes Destinos&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.46206897&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="G:\IntelliJ IDEA - workspace\agencia-cliente\src\main\resources\Imagenes Destinos" />
@@ -122,6 +125,9 @@
       <workItem from="1700314358981" duration="8312000" />
       <workItem from="1700348053314" duration="6968000" />
       <workItem from="1700412178421" duration="13321000" />
+      <workItem from="1700433891796" duration="229000" />
+      <workItem from="1700450021521" duration="3232000" />
+      <workItem from="1700485416687" duration="2870000" />
     </task>
     <servers />
   </component>

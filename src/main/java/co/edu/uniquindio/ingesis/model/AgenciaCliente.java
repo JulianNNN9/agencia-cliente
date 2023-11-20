@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 @Log
 public class AgenciaCliente {
@@ -66,7 +65,7 @@ public class AgenciaCliente {
         }
     }
 
-    public String hacerReservacion(String clientID, String mail, String selectedItem, String text, String text1) {
+    public String hacerReservacion(String clientID, String mail, String selectedItem, String nroCupos, String paqueteName) {
 
         try (Socket socket = new Socket(HOST, PUERTO)){
 
@@ -79,8 +78,8 @@ public class AgenciaCliente {
                     .clientID(clientID)
                     .mailClient(mail)
                     .selectedGuia(selectedItem)
-                    .nroCupos(text)
-                    .selectedPackageName(text1)
+                    .nroCupos(nroCupos)
+                    .selectedPackageName(paqueteName)
                     .build();
 
             //Se envía un mensaje al servidor con los datos de la petición
