@@ -767,8 +767,8 @@ public class HomeController {
             optionalClient.ifPresent(this::sesionIniciada);
 
             if (optionalClient.isPresent()){
-                if (!agenciaCliente.alertarPorDescuentoEnReservas(optionalClient.get()).isEmpty()){
-                    createAlertInfo("!Cliente¡", "Información", agenciaCliente.alertarPorDescuentoEnReservas(optionalClient.get()));
+                if (!agenciaCliente.alertarPorDescuentoEnReservas().isEmpty()){
+                    createAlertInfo("!Cliente¡", "Información", agenciaCliente.alertarPorDescuentoEnReservas());
                 }
             }
 

@@ -103,7 +103,7 @@ public class AgenciaCliente {
 
     }
 
-    public String alertarPorDescuentoEnReservas(Client client){
+    public String alertarPorDescuentoEnReservas(){
 
         try (Socket socket = new Socket(HOST, PUERTO)){
 
@@ -113,7 +113,6 @@ public class AgenciaCliente {
 
             //Se envía un mensaje al servidor con los datos de la petición
             out.writeObject( Mensaje.builder()
-                    .contenido(client)
                     .tipo("recompensasPorReservas").build() );
 
             //Obtenemos la respuesta del servidor
@@ -157,7 +156,6 @@ public class AgenciaCliente {
             log.severe(e.getMessage());
             throw new RuntimeException(e);
         }
-
 
     }
 

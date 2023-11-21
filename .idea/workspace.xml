@@ -6,14 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="63d5de39-b50b-4a9a-9fff-69d87c2cd862" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/AdminViewController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/AdminViewController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/HomeController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/controllers/HomeController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/AgenciaCliente.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/AgenciaCliente.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/Sin título.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/descarga.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/descarga.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/faker.png" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/faker.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/Imagenes Destinos/ventanaDePerfil.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/views/homeView.fxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/TouristPackage.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/co/edu/uniquindio/ingesis/model/TouristPackage.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +122,7 @@
       <workItem from="1700412178421" duration="13321000" />
       <workItem from="1700433891796" duration="229000" />
       <workItem from="1700450021521" duration="3232000" />
-      <workItem from="1700485416687" duration="2870000" />
+      <workItem from="1700485416687" duration="5876000" />
     </task>
     <servers />
   </component>
